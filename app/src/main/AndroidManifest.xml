@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SignInActivity"
+            android:name=".UploadDocuments"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".SignUpActivity"
@@ -26,13 +26,17 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_sign_up"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".UploadDocuments">
+        <activity android:name=".EditProfileActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity_"/>
+               <activity android:name=".SignInActivity"/>
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".RegistrationActivity"/>
     </application>
 
 </manifest>
