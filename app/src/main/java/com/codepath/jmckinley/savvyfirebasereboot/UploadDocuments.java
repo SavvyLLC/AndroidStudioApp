@@ -36,6 +36,8 @@ public class UploadDocuments extends AppCompatActivity {
     StorageReference storageReference;
     DatabaseReference databaseReference;
 
+    FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,11 @@ public class UploadDocuments extends AppCompatActivity {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         storageReference = FirebaseStorage.getInstance().getReference();
-        databaseReference = FirebaseDatabase.getInstance().getReference("uploads");
+        databaseReference = FirebaseDatabase.getInstance().getReference("server/uploads");
+
+        //DatabaseReference drb = FirebaseDatabase.getInstance().getReference("artist");
+        //TODO Pass mAuth to this class so it's dynmically updating what files belonds to what user
+        mAuth = FirebaseAuth.getInstance();
 
 
         btn_upload.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +91,8 @@ public class UploadDocuments extends AppCompatActivity {
         progressDialog.setTitle("Uploading...");
         progressDialog.show();
 
+        mAuth.signInWithEmailAndPassword("test@gmail.com", "123456");
+
         StorageReference reference = storageReference.child("uploads/"+System.currentTimeMillis()+" .pdf");
         reference.putFile(data)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -96,7 +104,7 @@ public class UploadDocuments extends AppCompatActivity {
                         Uri url = uri.getResult();
 
                         uploadPDF uploadPDF = new uploadPDF(editPDFName.getText().toString(), url.toString());
-                        databaseReference.child(databaseReference.push().getKey()).setValue(uploadPDF);
+                        databaseReference.child(mAuth.getUid()).setValue(uploadPDF);
                         Toast.makeText(UploadDocuments.this, "File Upload", Toast.LENGTH_LONG);
                         progressDialog.dismiss();
                     }

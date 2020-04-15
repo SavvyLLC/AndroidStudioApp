@@ -135,14 +135,14 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void goToMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, MainActivity_.class);
         startActivity(i);
         //finish();
 
     }
 
     private void goToLogin() {
-        Intent i = new Intent(this, LoginActivity.class);
+        Intent i = new Intent(this, SignInActivity.class);
         startActivity(i);
        // finish();
     }
