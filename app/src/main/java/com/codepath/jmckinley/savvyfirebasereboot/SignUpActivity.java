@@ -211,7 +211,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     public boolean startIntentToMainActivity(){
-        Intent i = new Intent(SignUpActivity.this, MainActivity.class);
+        Intent i = new Intent(SignUpActivity.this, MainActivity_.class);
         startActivity(i);
 
         return true;

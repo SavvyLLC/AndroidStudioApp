@@ -25,10 +25,10 @@ public class MainActivity_ extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_);
 
-        fStore = FirebaseFirestore.getInstance();   // Initialize Firestore
-        mAuth = FirebaseAuth.getInstance();         // Initialize Firebase Auth
+        //fStore = FirebaseFirestore.getInstance();   // Initialize Firestore
+        //mAuth = FirebaseAuth.getInstance();         // Initialize Firebase Auth
 
         btnEditProfile = findViewById(R.id.btnEditProfile);
         btnSignout = findViewById(R.id.btnSignOut);

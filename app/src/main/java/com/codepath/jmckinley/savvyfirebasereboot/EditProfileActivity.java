@@ -79,6 +79,15 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
+        //Transitions to file upload screen
+        btnUploadResume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(EditProfileActivity.this, UploadDocuments.class);
+                startActivity(i);
+            }
+        });
+
 
         // submit changes to database
         btnSubmit.setOnClickListener(new View.OnClickListener() {

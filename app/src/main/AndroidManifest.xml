@@ -26,7 +26,7 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_sign_up"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".EditProfileActivity">
+        <activity android:name=".SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity_"/>
-               <activity android:name=".SignInActivity"/>
+        <activity android:name=".EditProfileActivity"/>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".RegistrationActivity"/>
     </application>

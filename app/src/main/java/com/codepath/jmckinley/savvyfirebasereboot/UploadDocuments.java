@@ -47,7 +47,7 @@ public class UploadDocuments extends AppCompatActivity {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         storageReference = FirebaseStorage.getInstance().getReference();
-        //databaseReference = FirebaseDatabase.getInstance().getReference("uploads");
+        databaseReference = FirebaseDatabase.getInstance().getReference("uploads");
 
 
         btn_upload.setOnClickListener(new View.OnClickListener() {
