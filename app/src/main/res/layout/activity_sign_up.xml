@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    >
 
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="278dp"
-        android:layout_height="85dp"
+        android:layout_width="280dp"
+        android:layout_height="163dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        app:srcCompat="@drawable/savvy_logo" />
+        app:srcCompat="@drawable/savvy_logo"
+
+        />
 
     <EditText
         android:id="@+id/signUpEmail"
@@ -28,7 +33,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="13dp"
         android:layout_marginLeft="13dp"
-        android:layout_marginTop="119dp"
         android:background="#00FFFFFF"
         android:drawableLeft="@drawable/ic_action_user"
         android:ems="10"
@@ -49,7 +53,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="11dp"
         android:layout_marginLeft="11dp"
-        android:layout_marginTop="159dp"
         android:background="#00FFFFFF"
         android:drawableLeft="@drawable/ic_action_lock"
         android:ems="10"
@@ -59,21 +62,46 @@
         android:textColorHint="#fff"
         android:textSize="20dp" />
 
-
-    <Button
-
-        android:id="@+id/signUpButton"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
+    <EditText
+        android:id="@+id/signUpFirstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginVertical="600dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginLeft="13dp"
+        android:background="#00FFFFFF"
+        android:drawableLeft="@drawable/ic_action_user"
+        android:ems="10"
+        android:hint="First Name"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="20dp"
+        android:layout_below="@+id/signUpPassword"
+        />
 
-        android:layout_marginStart="55dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="450dp"
-        android:layout_marginBottom="300dp"
+    <EditText
+        android:id="@+id/signUpLastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginLeft="11dp"
+        android:background="#00FFFFFF"
+        android:drawableLeft="@drawable/ic_action_lock"
+        android:ems="10"
+        android:hint="Last name"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="20dp" />
 
-        android:text="Sign Up" />
+
+
 
     <Spinner
         android:id="@+id/selectSchoolSpinner"
@@ -86,11 +114,13 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="17dp"
         android:layout_marginLeft="17dp"
-        android:layout_marginTop="196dp"
+        android:layout_marginTop="20dp"
         android:background="#9A78FF"
         android:padding="10dp"
         android:text="Select School"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+
+        />
 
     <RadioGroup
         android:layout_width="200dp"
@@ -100,7 +130,6 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="44dp"
-        android:layout_marginTop="280dp"
         android:id="@+id/radioGroupSignup"
         >
 
@@ -134,10 +163,8 @@
 
     <EditText
         android:id="@+id/userBriefBio"
-        android:layout_width="match_parent"
+        android:layout_width="354dp"
         android:layout_height="120dp"
-        android:layout_marginTop="350dp"
-        android:layout_marginBottom="188dp"
         android:layout_marginStart="30dp"
         android:ems="10"
         android:gravity="start|top"
@@ -145,8 +172,16 @@
         android:inputType="textMultiLine"
         android:textColor="#ffffff"
         android:textColorHint="#ffffff"
-        android:textSize="20dp"
-        />
+        android:textSize="20dp" />
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/signUpButton"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="#ffffff"
+        android:layout_gravity="center"
+        android:text="Sign Up" />
 
 
-</RelativeLayout>
+</LinearLayout>

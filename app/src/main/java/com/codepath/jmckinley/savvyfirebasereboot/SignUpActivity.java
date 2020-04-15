@@ -42,6 +42,9 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     EditText userEmail;
     EditText userPassword;
+    EditText firstName;
+    EditText lastName;
+    EditText userBriefBio;
 
     Button selectSchoolbutton;
     Button signUpButton;
@@ -69,6 +72,9 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         this.userEmail = findViewById(R.id.signUpEmail);
         this.userPassword = findViewById(R.id.signUpPassword);
+        this.firstName = findViewById(R.id.signUpFirstName);
+        this.lastName = findViewById(R.id.signUpLastName);
+        this.userBriefBio = findViewById(R.id.userBriefBio);
 
 
         this.signUpButton = findViewById(R.id.signUpButton);
@@ -123,7 +129,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     public boolean checkForRequredEntriesAreFilled(){
         //Checks String Entries
         //schoolName is talking about toString()
-        if(this.userEmail.getText().toString() == "" || this.userPassword.getText().toString() == "" ){
+        if(this.userEmail.getText().toString() == "" || this.userPassword.getText().toString() == "" ||
+           this.firstName.getText().toString() == "" || this.lastName.getText().toString() == "" || userBriefBio.getText().toString() == ""){
             Toast.makeText(this, "An Entry was left blank", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -163,9 +170,18 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         // Access a Cloud Firestore instance from your Activity
         db = FirebaseFirestore.getInstance();
         Map<String, Object> userAccountInfo = new HashMap<>();
-        userAccountInfo.put("firstName", "Ada");
-        userAccountInfo.put("lastName", "Lovelace");
-        userAccountInfo.put("DOB", "01/01/98");
+        userAccountInfo.put("firstName", this.firstName.getText().toString());
+        userAccountInfo.put("lastName",  this.lastName.getText().toString());
+        userAccountInfo.put("briefBio", this.userBriefBio.getText().toString());
+
+        //Gets the selected school for user
+        RadioButton rb = findViewById(this.radioGroup.getCheckedRadioButtonId());
+        userAccountInfo.put("School", rb.getText().toString());
+
+        //Default Cases: Need to add
+        userAccountInfo.put("classification", "01/01/98");
+        userAccountInfo.put("skills", "NONE");
+
 
         if(this.companyRadioButton.isChecked())
             userAccountInfo.put("isCompany", false);
