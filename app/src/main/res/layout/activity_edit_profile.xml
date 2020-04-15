@@ -8,7 +8,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView_ProfileImage"
+        android:id="@+id/editProfileUserImage"
         android:layout_width="170dp"
         android:layout_height="221dp"
         android:layout_marginStart="8dp"
@@ -20,7 +20,7 @@
         android:contentDescription="user profile image" />
 
     <EditText
-        android:id="@+id/et_FullName"
+        android:id="@+id/editProfileFirstName"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
@@ -31,12 +31,31 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView_ProfileImage"
+        app:layout_constraintStart_toEndOf="@+id/editProfileUserImage"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Isaiah McNealy" />
+        tools:text="Isaiah"
+
+        />
 
     <EditText
-        android:id="@+id/editText_Major"
+        android:id="@+id/editProfileLastName"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_vertical"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileFirstName"
+        app:layout_constraintStart_toEndOf="@+id/editProfileUserImage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="McNeialy" />
+
+    <EditText
+        android:id="@+id/editProfileMajor"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
@@ -44,23 +63,23 @@
         android:layout_marginEnd="16dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView_ProfileImage"
-        app:layout_constraintTop_toBottomOf="@+id/et_FullName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/editProfileUserImage"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileLastName"
         tools:text="Computer Science" />
 
     <EditText
-        android:id="@+id/editText_University"
+        android:id="@+id/editProfileUniversity"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView_ProfileImage"
-        app:layout_constraintTop_toBottomOf="@+id/editText_Major"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/editProfileUserImage"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileMajor"
         tools:text="FAMU" />
 
     <Button
@@ -68,17 +87,17 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:text="Upload Resume"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_ProfileImage" />
+        app:layout_constraintTop_toBottomOf="@+id/editProfileAccountTypeRadioGroup" />
 
     <Button
-        android:id="@+id/button_Cancel"
+        android:id="@+id/editProfileCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -88,7 +107,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button_Submit"
+        android:id="@+id/editProfileSubmitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -98,9 +117,9 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/editText_AboutMe"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/editProfileBriefBio"
+        android:layout_width="355dp"
+        android:layout_height="285dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
@@ -109,34 +128,61 @@
         android:hint="Bio"
         android:inputType="textMultiLine"
         android:minLines="3"
-        app:layout_constraintBottom_toTopOf="@+id/button_Cancel"
+        app:layout_constraintBottom_toTopOf="@+id/editProfileCancel"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_UploadResume"
+        app:layout_constraintVertical_bias="0.228"
         tools:text="Im here to change the world one line of code at a time" />
 
     <Button
-        android:id="@+id/btnSignout"
+        android:id="@+id/editProfileSignOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="Signout"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_Submit"
-        app:layout_constraintStart_toEndOf="@+id/button_Cancel" />
+        app:layout_constraintEnd_toStartOf="@+id/editProfileSubmitButton"
+        app:layout_constraintStart_toEndOf="@+id/editProfileCancel" />
 
-    <TextView
-        android:id="@+id/tvEmail"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="center_vertical"
-        android:hint="email"
-        android:inputType="textEmailAddress"
+    <RadioGroup
+        android:id="@+id/editProfileAccountTypeRadioGroup"
+        android:layout_width="206dp"
+        android:layout_height="81dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginHorizontal="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView_ProfileImage"
-        app:layout_constraintTop_toBottomOf="@+id/editText_University" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileUniversity">
+
+        <RadioButton
+            android:id="@+id/editProfileCompanyRadioButton"
+            style="@android:style/Widget.CompoundButton.CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="#9A78FF"
+            android:text="Company"
+            android:textColor="#9A78FF"
+
+            android:textSize="25sp"
+
+
+            />
+
+        <RadioButton
+            android:id="@+id/editProfileStudentRadioButton"
+            style="@android:style/Widget.CompoundButton.CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="#9A78FF"
+            android:text="Student"
+            android:textColor="#9A78FF"
+
+            android:textSize="25dp" />
+
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
