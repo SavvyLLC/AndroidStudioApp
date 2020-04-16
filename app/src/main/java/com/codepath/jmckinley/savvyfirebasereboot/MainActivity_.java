@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -11,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.lorentzos.flingswipe.SwipeFlingAdapterView;
+
+import java.util.ArrayList;
 
 public class MainActivity_ extends AppCompatActivity {
 
@@ -22,10 +26,76 @@ public class MainActivity_ extends AppCompatActivity {
     private Button btnEditProfile;
     private Button btnSignout;
 
+    private ArrayList<String> al;
+    private ArrayAdapter<String> arrayAdapter;
+    private int i;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_);
+
+        //FlingContainer - Begin
+
+        al = new ArrayList<>();
+        al.add("php");
+        al.add("c");
+        al.add("python");
+        al.add("java");
+        al.add("html");
+        al.add("c++");
+        al.add("css");
+        al.add("javascript");
+
+        arrayAdapter = new ArrayAdapter<>(this, R.layout.item, R.id.helloText, al);
+
+        SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
+
+        flingContainer.setAdapter(arrayAdapter);
+        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener(){
+
+
+            @Override
+            public void removeFirstObjectInAdapter() {
+                //simplest way to delete an object from the adapater
+                Log.d("LIST", "removed object!");
+                al.remove(0);
+                arrayAdapter.notifyDataSetChanged();;
+            }
+
+            @Override
+            /*
+            Disgard a user
+             */
+            public void onLeftCardExit(Object dataObject){
+                //Do something on the left!
+                Toast.makeText(MainActivity_.this, "Left!", Toast.LENGTH_LONG);
+            }
+
+            @Override
+            public void onRightCardExit(Object dataObject){
+                Toast.makeText(MainActivity_.this, "Right!", Toast.LENGTH_LONG);
+            }
+
+            /*
+            Detects that adapater is about to empty so fill it in with more information
+             */
+            @Override
+            public void onAdapterAboutToEmpty(int itemsInAdapater){
+                al.add("XML ".concat(String.valueOf(i)));
+                arrayAdapter.notifyDataSetChanged();
+                Log.d("List", "notified");
+                i++;
+            }
+
+            @Override
+            public void onScroll(float scrollProgressPercent){
+                Toast.makeText(MainActivity_.this, "click!", Toast.LENGTH_LONG);
+            }
+        });
+
+
+        //FlingContainer - End
 
         //fStore = FirebaseFirestore.getInstance();   // Initialize Firestore
         mAuth = FirebaseAuth.getInstance();         // Initialize Firebase Auth

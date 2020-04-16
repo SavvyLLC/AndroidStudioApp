@@ -19,4 +19,13 @@
         android:layout_height="wrap_content"
         android:text="Signout " />
 
+    <com.lorentzos.flingswipe.SwipeFlingAdapterView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffeee9e2"
+        android:id="@+id/frame"
+        app:rotation_degrees="15.5"
+        tools:context=".MyActivity"
+        />
+
 </LinearLayout>
