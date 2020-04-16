@@ -17,8 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".DetailedUserSelection"
+            android:label="@string/title_activity_detailed_user_selection"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -33,10 +37,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity_"/>
-        <activity android:name=".EditProfileActivity"/>
-        <activity android:name=".UploadDocuments"/>
-        <activity android:name=".RegistrationActivity"/>
+        <activity android:name=".MainActivity_" />
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".UploadDocuments" />
+        <activity android:name=".RegistrationActivity" />
     </application>
 
 </manifest>

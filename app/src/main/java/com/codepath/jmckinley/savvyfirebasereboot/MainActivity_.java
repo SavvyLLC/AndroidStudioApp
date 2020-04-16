@@ -70,11 +70,13 @@ public class MainActivity_ extends AppCompatActivity {
             public void onLeftCardExit(Object dataObject){
                 //Do something on the left!
                 Toast.makeText(MainActivity_.this, "Left!", Toast.LENGTH_LONG);
+                Log.d(TAG, "Swipe Left");
             }
 
             @Override
             public void onRightCardExit(Object dataObject){
                 Toast.makeText(MainActivity_.this, "Right!", Toast.LENGTH_LONG);
+                Log.d(TAG, "Swipe Right");
             }
 
             /*
@@ -91,11 +93,15 @@ public class MainActivity_ extends AppCompatActivity {
             @Override
             public void onScroll(float scrollProgressPercent){
                 Toast.makeText(MainActivity_.this, "click!", Toast.LENGTH_LONG);
+                Log.d(TAG, "click!");
+
+                //TODO Find a better solution to more accurate click detector
+                //Quick fix to detect click
+                if(scrollProgressPercent == 0){
+                    goToDetailedUserSelection();
+                }
             }
         });
-
-
-        //FlingContainer - End
 
         //fStore = FirebaseFirestore.getInstance();   // Initialize Firestore
         mAuth = FirebaseAuth.getInstance();         // Initialize Firebase Auth
@@ -124,6 +130,11 @@ public class MainActivity_ extends AppCompatActivity {
                 goToLogin();
             }
         });
+    }
+
+    private void goToDetailedUserSelection() {
+        Intent i = new Intent(this, DetailedUserSelection.class);
+        startActivity(i);
     }
 
     private void goToEditProfile() {

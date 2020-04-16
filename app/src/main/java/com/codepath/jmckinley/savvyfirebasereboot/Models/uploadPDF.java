@@ -9,7 +9,7 @@ public class uploadPDF {
 
     }
 
-    public uploadPDF(String name, String url) {
+    public uploadPDF(String name, String url)  {
         this.name = name;
         this.url = url;
     }

@@ -11,5 +11,6 @@
     </string-array>
     <string name="title_activity_sign_in">SignInActivity</string>
     <string name="title_activity_upload_documents">UploadDocuments</string>
+    <string name="title_activity_detailed_user_selection">DetailedUserSelection</string>
 
 </resources>
