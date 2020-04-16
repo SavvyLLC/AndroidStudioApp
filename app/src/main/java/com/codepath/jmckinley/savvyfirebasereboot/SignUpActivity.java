@@ -46,10 +46,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     EditText lastName;
     EditText userBriefBio;
     EditText userMajor;
-    EditText userUniversity;
+    //EditText userUniversity;
 
-
-    Button selectSchoolbutton;
     Button signUpButton;
 
     TextView schoolName;
@@ -59,6 +57,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     RadioButton studentRadioButton;
 
     private FirebaseFirestore db;
+
+    String userUniversity = "";
 
 
     final public static String TAG = "SignUpActivity";
@@ -78,7 +78,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         this.firstName = findViewById(R.id.signUpFirstName);
         this.lastName = findViewById(R.id.signUpLastName);
         this.userMajor = findViewById(R.id.signUpMajor);
-        this.schoolName = findViewById(R.id.signUpMajor);
+        //this.schoolName = findViewById(R.id.si);
         this.userBriefBio = findViewById(R.id.signUpUserBriefBio);
         this.signUpButton = findViewById(R.id.signUpButton);
 
@@ -98,6 +98,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(this);
+
+
 
         //Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -122,7 +124,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         //schoolName is talking about toString()
         if(this.userEmail.getText().toString() == "" || this.userPassword.getText().toString() == "" ||
            this.firstName.getText().toString() == "" || this.lastName.getText().toString() == "" || userBriefBio.getText().toString() == "" ||
-            this.userMajor.getText().toString() == "" || this.userUniversity.getText().toString() == ""){
+            this.userMajor.getText().toString() == "" || this.userUniversity == ""){
             Toast.makeText(this, "An Entry was left blank", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -181,31 +183,18 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         Log.d(TAG, "Load AddtionalInfoForUser running");
 
-        db.collection("test")
-                .add(userAccountInfo)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-
-
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "Added Document");
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-
-                        //Activiate transition to MainActivity
-                        startIntentToMainActivity();
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "Failed to add document");
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        db.collection("users")
+                .document(mAuth.getUid())
+                .set(userAccountInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
-                Log.d(TAG,"TASK WAS COMPLETE");
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG,"Failed to create document");
+                startIntentToMainActivity();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("TAG", "Failed to login " + e);
             }
         });
 
@@ -227,7 +216,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     Get the text from spinner and display it for the user
      */
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String itemText = parent.getItemAtPosition(position).toString();
+        String university = parent.getItemAtPosition(position).toString();
+        this.userUniversity = university;
     }
 
     @Override
