@@ -81,7 +81,7 @@ public class EditProfileActivity extends AppCompatActivity {
         isCompanyRadioBtn = findViewById(R.id.editProfileCompanyRadioButton);
         isStudentRadioBtn = findViewById(R.id.editProfileStudentRadioButton);
 
-        DocumentReference documentReference = fStore.collection("users").document(userId);
+        //DocumentReference documentReference = fStore.collection("users").document(userId);
         loadUserDetailsIntoView();
 
         //Transitions to file upload screen

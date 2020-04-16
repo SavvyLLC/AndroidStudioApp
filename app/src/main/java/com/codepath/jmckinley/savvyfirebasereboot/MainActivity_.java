@@ -28,7 +28,7 @@ public class MainActivity_ extends AppCompatActivity {
         setContentView(R.layout.activity_main_);
 
         //fStore = FirebaseFirestore.getInstance();   // Initialize Firestore
-        //mAuth = FirebaseAuth.getInstance();         // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();         // Initialize Firebase Auth
 
         btnEditProfile = findViewById(R.id.btnEditProfile);
         btnSignout = findViewById(R.id.btnSignOut);
