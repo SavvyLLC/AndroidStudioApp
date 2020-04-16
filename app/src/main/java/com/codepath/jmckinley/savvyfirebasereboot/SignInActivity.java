@@ -48,24 +48,25 @@ public class SignInActivity extends AppCompatActivity {
         this.signUpButton = findViewById(R.id.newUserSignUpButton);
 
         mAuth = FirebaseAuth.getInstance();
-        FirebaseAuth.getInstance();
+
+        // check if user is currently signed in
+        if (mAuth.getCurrentUser() != null) {
+            goToMainActivity();
+            finish();
+        }
 
         this.signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(checkForRequredEntriesAreFilled())
                     signInUser();
-
             }
         });
 
         this.signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startIntentToSignUp();
-
             }
         });
     }
@@ -127,5 +128,13 @@ public class SignInActivity extends AppCompatActivity {
         return true;
 
     }
+
+    // use intent system to navigate to Main activity
+    private void goToMainActivity() {
+        Intent i = new Intent(this, MainActivity_.class);
+        startActivity(i);
+        finish();
+    }
+
 
 }

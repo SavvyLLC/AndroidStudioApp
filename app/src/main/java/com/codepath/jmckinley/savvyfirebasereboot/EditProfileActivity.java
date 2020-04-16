@@ -80,15 +80,9 @@ public class EditProfileActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.editProfileAccountTypeRadioGroup);
         isCompanyRadioBtn = findViewById(R.id.editProfileCompanyRadioButton);
         isStudentRadioBtn = findViewById(R.id.editProfileStudentRadioButton);
-        
-        //TODO Remove after done with testing(Instant Login for Testing)
-        mAuth.signInWithEmailAndPassword("test@gmail.com", "123456");
-        userId = mAuth.getCurrentUser().getUid();
 
         DocumentReference documentReference = fStore.collection("users").document(userId);
-
         loadUserDetailsIntoView();
-
 
         //Transitions to file upload screen
         btnUploadResume.setOnClickListener(new View.OnClickListener() {

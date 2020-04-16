@@ -45,6 +45,9 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     EditText firstName;
     EditText lastName;
     EditText userBriefBio;
+    EditText userMajor;
+    EditText userUniversity;
+
 
     Button selectSchoolbutton;
     Button signUpButton;
@@ -74,18 +77,15 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         this.userPassword = findViewById(R.id.signUpPassword);
         this.firstName = findViewById(R.id.signUpFirstName);
         this.lastName = findViewById(R.id.signUpLastName);
-        this.userBriefBio = findViewById(R.id.userBriefBio);
-
-
+        this.userMajor = findViewById(R.id.signUpMajor);
+        this.schoolName = findViewById(R.id.signUpMajor);
+        this.userBriefBio = findViewById(R.id.signUpUserBriefBio);
         this.signUpButton = findViewById(R.id.signUpButton);
-
-
 
         this.radioGroup = findViewById(R.id.radioGroupSignup);
         this.companyRadioButton = findViewById(R.id.companyRadioButton);
         this.studentRadioButton = findViewById(R.id.studentRadioButton);
 
-        EditText userBriefBio = findViewById(R.id.userBriefBio);
 
         //Hide the keyboard for input types
         userEmail.setInputType(0);
@@ -97,19 +97,10 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-//        InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-//        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-
         spinner.setOnItemSelectedListener(this);
 
         //Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-
-
-        Map<String, Object> city = new HashMap<>();
-        city.put("name", "Los Angeles");
-        city.put("state", "CA");
-        city.put("country", "USA");
 
         db = FirebaseFirestore.getInstance();
 
@@ -130,7 +121,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         //Checks String Entries
         //schoolName is talking about toString()
         if(this.userEmail.getText().toString() == "" || this.userPassword.getText().toString() == "" ||
-           this.firstName.getText().toString() == "" || this.lastName.getText().toString() == "" || userBriefBio.getText().toString() == ""){
+           this.firstName.getText().toString() == "" || this.lastName.getText().toString() == "" || userBriefBio.getText().toString() == "" ||
+            this.userMajor.getText().toString() == "" || this.userUniversity.getText().toString() == ""){
             Toast.makeText(this, "An Entry was left blank", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -165,31 +157,27 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         return true;
     }
 
+    /*
+    Loads fields into Firebase
+     */
     private boolean loadAdditionalInfoForUser(){
 
         // Access a Cloud Firestore instance from your Activity
         db = FirebaseFirestore.getInstance();
         Map<String, Object> userAccountInfo = new HashMap<>();
-        userAccountInfo.put("firstName", this.firstName.getText().toString());
-        userAccountInfo.put("lastName",  this.lastName.getText().toString());
-        userAccountInfo.put("briefBio", this.userBriefBio.getText().toString());
-
-        //Gets the selected school for user
+        userAccountInfo.put("firstName", this.firstName.getText().toString().trim());
+        userAccountInfo.put("lastName",  this.lastName.getText().toString().trim());
+        userAccountInfo.put("briefBio", this.userBriefBio.getText().toString().trim());
         RadioButton rb = findViewById(this.radioGroup.getCheckedRadioButtonId());
         userAccountInfo.put("School", rb.getText().toString());
-
-        //Default Cases: Need to add
-        userAccountInfo.put("classification", "01/01/98");
-        userAccountInfo.put("skills", "NONE");
-
+        userAccountInfo.put("major", this.userMajor.getText().toString().trim());
 
         if(this.companyRadioButton.isChecked())
             userAccountInfo.put("isCompany", false);
         else
             userAccountInfo.put("isCompany", true);
 
-        userAccountInfo.put("schoolName", "Florida A&M University");
-
+        userAccountInfo.put("resumeRef", "N/A");
 
         Log.d(TAG, "Load AddtionalInfoForUser running");
 
