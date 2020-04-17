@@ -67,41 +67,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void goToPreferenceActivity() {
-        Log.i(TAG, "Attempting to return to loginActivity");
-        // use intent system to navigate to new activity
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
-        finish();
-
-    }
-
-    private void goToMainActivity() {
-        Log.i(TAG, "Attempting to return to loginActivity");
-        // use intent system to navigate to new activity
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
-        finish();
-
-    }
-
-    private void goToMessageActivity() {
-        Log.i(TAG, "Attempting to return to loginActivity");
-        // use intent system to navigate to new activity
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
-        finish();
-
-    }
-
-    private void goToCallActivity() {
-        Log.i(TAG, "Attempting to return to loginActivity");
-        // use intent system to navigate to new activity
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
-        finish();
-
-    }
 
 
 

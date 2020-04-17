@@ -41,6 +41,10 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".UploadDocuments" />
         <activity android:name=".RegistrationActivity" />
+        <activity android:name=".CallActivity" />
+        <activity android:name=".MessageActivity" />
+        <activity android:name=".PreferenceActivity" />
+
     </application>
 
 </manifest>

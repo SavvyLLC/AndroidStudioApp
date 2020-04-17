@@ -3,13 +3,17 @@ package com.codepath.jmckinley.savvyfirebasereboot;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
@@ -26,6 +30,8 @@ public class MainActivity_ extends AppCompatActivity {
     private Button btnEditProfile;
     private Button btnSignout;
 
+    private BottomNavigationView bottomNavigationView;
+
     private ArrayList<String> al;
     private ArrayAdapter<String> arrayAdapter;
     private int i;
@@ -33,8 +39,39 @@ public class MainActivity_ extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: change activity_main to activity_main_
         setContentView(R.layout.activity_main_);
+
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_call:
+                        goToCallActivity();
+                        break;
+                    case R.id.action_message:
+                        goToMessageActivity();
+                        break;
+                    case R.id.action_main:
+//                        goToMainActivity();
+                        break;
+                    case R.id.action_settings:
+                        goToPreferenceActivity();
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+        // Set default selection
+        bottomNavigationView.setSelectedItemId(R.id.action_main);
+
+
+
+
+
+
 
         //FlingContainer - Begin
 
@@ -147,4 +184,26 @@ public class MainActivity_ extends AppCompatActivity {
         Intent i = new Intent(this, SignInActivity.class);
         startActivity(i);
     }
+
+    private void goToMainActivity() {
+        Intent i = new Intent(this, MainActivity_.class);
+        startActivity(i);
+    }
+
+    private void goToPreferenceActivity() {
+        Intent i = new Intent(this, PreferenceActivity.class);
+        startActivity(i);
+    }
+
+    private void goToMessageActivity() {
+        Intent i = new Intent(this, MessageActivity.class);
+        startActivity(i);
+    }
+
+    private void goToCallActivity() {
+        Intent i = new Intent(this, CallActivity.class);
+        startActivity(i);
+    }
+
+
 }
