@@ -33,6 +33,7 @@ public class MainActivity_ extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // TODO: change activity_main to activity_main_
         setContentView(R.layout.activity_main_);
 
         //FlingContainer - Begin

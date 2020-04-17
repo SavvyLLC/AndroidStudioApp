@@ -1,31 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity_"
-    android:orientation="vertical">
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:layout_margin="16dp">
 
-    <Button
-        android:id="@+id/btnEditProfile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Edit Profile" />
-
-    <Button
-        android:id="@+id/btnSignOut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Signout " />
-
-    <com.lorentzos.flingswipe.SwipeFlingAdapterView
+    <FrameLayout
+        android:id="@+id/flContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffeee9e2"
-        android:id="@+id/frame"
-        app:rotation_degrees="15.5"
-        tools:context=".MyActivity"
-        />
+        android:layout_above="@id/bottom_navigation">
 
-</LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity_"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnEditProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edit Profile" />
+
+            <Button
+                android:id="@+id/btnSignOut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Signout " />
+
+            <com.lorentzos.flingswipe.SwipeFlingAdapterView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffeee9e2"
+                android:id="@+id/frame"
+                app:rotation_degrees="15.5"
+                tools:context=".MyActivity"
+                />
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
+        app:menu="@menu/menu_bottom_navigation" />
+
+</RelativeLayout>
+
