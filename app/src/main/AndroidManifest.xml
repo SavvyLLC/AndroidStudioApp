@@ -17,33 +17,34 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".DetailedUserSelection"
+            android:name=".activities.DetailedUserSelection"
             android:label="@string/title_activity_detailed_user_selection"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".activities.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_sign_up"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SignInActivity">
+<!--        <activity-->
+<!--            android:name=".activities.MainActivity"-->
+<!--            android:label="@string/title_activity_sign_up"-->
+<!--            android:theme="@style/AppTheme.NoActionBar" />-->
+        <activity android:name=".activities.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity_" />
-        <activity android:name=".EditProfileActivity" />
-        <activity android:name=".UploadDocuments" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".CallActivity" />
-        <activity android:name=".MessageActivity" />
-        <activity android:name=".PreferenceActivity" />
+        <activity android:name=".activities.MainActivity_" />
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.EditProfileActivity" />
+        <activity android:name=".activities.UploadDocuments" />
+        <activity android:name=".activities.RegistrationActivity" />
+        <activity android:name=".activities.CallActivity" />
+        <activity android:name=".activities.MessageActivity" />
+        <activity android:name=".activities.PreferenceActivity" />
 
     </application>
 

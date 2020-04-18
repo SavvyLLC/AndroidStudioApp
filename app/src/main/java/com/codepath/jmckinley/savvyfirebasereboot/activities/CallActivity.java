@@ -1,14 +1,13 @@
-package com.codepath.jmckinley.savvyfirebasereboot;
+package com.codepath.jmckinley.savvyfirebasereboot.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
+import com.codepath.jmckinley.savvyfirebasereboot.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CallActivity extends AppCompatActivity {

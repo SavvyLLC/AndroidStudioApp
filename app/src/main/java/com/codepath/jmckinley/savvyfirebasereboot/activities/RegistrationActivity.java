@@ -1,4 +1,4 @@
-package com.codepath.jmckinley.savvyfirebasereboot;
+package com.codepath.jmckinley.savvyfirebasereboot.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.codepath.jmckinley.savvyfirebasereboot.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;

@@ -1,4 +1,4 @@
-package com.codepath.jmckinley.savvyfirebasereboot;
+package com.codepath.jmckinley.savvyfirebasereboot.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.codepath.jmckinley.savvyfirebasereboot.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -145,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // use intent system to navigate to Main activity
     private void goToMainActivity() {
-        Intent i = new Intent(this, MainActivity_.class);
+        Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
     }

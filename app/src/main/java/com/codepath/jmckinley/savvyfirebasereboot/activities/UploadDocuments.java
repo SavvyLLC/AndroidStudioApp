@@ -1,4 +1,4 @@
-package com.codepath.jmckinley.savvyfirebasereboot;
+package com.codepath.jmckinley.savvyfirebasereboot.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -6,10 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.codepath.jmckinley.savvyfirebasereboot.Models.uploadPDF;
+import com.codepath.jmckinley.savvyfirebasereboot.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -21,7 +20,6 @@ import com.google.firebase.storage.UploadTask;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.Button;
