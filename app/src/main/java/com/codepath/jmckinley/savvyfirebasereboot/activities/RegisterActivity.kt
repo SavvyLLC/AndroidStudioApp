@@ -21,8 +21,6 @@ class RegisterActivity : AppCompatActivity() {
     val firestoreDB = FirebaseFirestore.getInstance()
 
     private lateinit var mAuth: FirebaseAuth
-    private lateinit var refUsers: DatabaseReference
-//    private lateinit var firestoreDB: FirebaseFirestore
     private var firebaseUserId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,8 +40,10 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
 
+        // get the current user
         mAuth = FirebaseAuth.getInstance()
 
+        // start register method
         register_btn.setOnClickListener {
             registerUser()
         }
@@ -51,10 +51,12 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun registerUser(){
+        // capture input from text fields
         val username: String = username_register.text.toString()
         val email: String = email_register.text.toString()
         val password: String = password_register.text.toString()
 
+        // check that fields are completed
         if (username.equals("")) {
             Toast.makeText(this@RegisterActivity, "username cannot be empty.", Toast.LENGTH_LONG).show()
         } else if (email.equals("")) {
@@ -62,15 +64,17 @@ class RegisterActivity : AppCompatActivity() {
         } else if (password.equals("")) {
             Toast.makeText(this@RegisterActivity, "password cannot be empty.", Toast.LENGTH_LONG).show()
         } else {
+            // create and authorize new user
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
+                            // capture the users unique id
                             firebaseUserId = mAuth.currentUser!!.uid
-//                            refUsers = FirebaseDatabase.getInstance().reference.child("users").child(firebaseUserId)
 
-
+                            // create  a hashmap to create a document
                             val userHashMap = HashMap<String, Any>()
 
+                            // set user information
                             userHashMap["uid"] = firebaseUserId
                             userHashMap["username"] = username
                             userHashMap["profileImage"] = "https://firebasestorage.googleapis.com/v0/b/savvyllcreboot.appspot.com/o/profileimage.jpeg?alt=media&token=4235769f-0e2d-40ec-aacb-931b5d2c56b8"
@@ -81,17 +85,21 @@ class RegisterActivity : AppCompatActivity() {
                             userHashMap["instagram"] = "https://m.instagram.com"
                             userHashMap["website"] = "http://www.isaiahmcnealy.com"
 
+                            // fit the assigned data to the current user's document
                             firestoreDB.collection("users")
                                     .document(firebaseUserId)
                                     .set(userHashMap)
+                                    // check for successful input
                                     .addOnSuccessListener(OnSuccessListener {
                                         Log.d("RegisterActivity", "DocumentSnapshot successfully written!")
                                     })
                                     .addOnFailureListener(OnFailureListener {
                                         e -> Log.w("RegisterActivity", "Error writing document", e)
                                     })
+                                    // when data is finished writing
                                     .addOnCompleteListener {
                                         if (task.isSuccessful){
+                                            // navigate back to main activity
                                             val intent = Intent(this@RegisterActivity, MainActivity_::class.java)
                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                                             startActivity(intent)

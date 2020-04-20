@@ -20,12 +20,14 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
+        // navigate to register activity
         register_welcome_btn.setOnClickListener{
             val intent = Intent(this@WelcomeActivity, RegisterActivity::class.java)
             startActivity(intent)
             finish()
         }
 
+        // navigate to login activity
         login_welcome_btn.setOnClickListener{
             val intent = Intent(this@WelcomeActivity, Login2Activity::class.java)
             startActivity(intent)
@@ -36,6 +38,7 @@ class WelcomeActivity : AppCompatActivity() {
 
     }
 
+    // launches right before on create
     override fun onStart() {
         super.onStart()
         // initialize instance of firebase

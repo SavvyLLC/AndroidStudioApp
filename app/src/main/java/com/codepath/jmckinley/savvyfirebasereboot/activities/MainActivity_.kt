@@ -58,8 +58,11 @@ class MainActivity_ : AppCompatActivity() {
         // automatically handle clicks on the home/up button so long
         // as you specify a parent activity in AndroidManifest
         when (item.itemId) {
+            // when the logout item is selected
             R.id.action_logout -> {
+                // sign out current user
                 FirebaseAuth.getInstance().signOut()
+                // navigate to welcome activity
                 val intent = Intent(this@MainActivity_, WelcomeActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
