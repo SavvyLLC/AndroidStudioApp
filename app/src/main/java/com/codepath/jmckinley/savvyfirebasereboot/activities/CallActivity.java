@@ -60,7 +60,7 @@ public class CallActivity extends AppCompatActivity {
     }
 
     private void goToMainActivity() {
-        Intent i = new Intent(this, MainActivity_.class);
+        Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }
 

@@ -67,6 +67,7 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
+
     /*
    Makes sure everything that's required by the user is filled in
     */
@@ -92,6 +93,17 @@ public class SignInActivity extends AppCompatActivity {
         return true;
     }
 
+    /*
+    Starts the SignUpActivity Screen
+     */
+    public boolean startIntentToMainActivity(){
+        Intent i = new Intent(SignInActivity.this, MainActivity.class);
+        startActivity(i);
+
+
+        return true;
+    }
+
     public boolean signInUser(){
         mAuth.signInWithEmailAndPassword(this.userEmail.getText().toString(), this.userPassword.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -100,24 +112,15 @@ public class SignInActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            goToMainActivity();
 
-                            Intent intent = new Intent(SignInActivity.this, MainActivity_.class);
-                            //intent.putExtra(EXTRA_MESSAGE);
-                            startActivity(intent);
-
-                            //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            //pdateUI(null);
-                            // ...
-
+                            return;
                         }
-
-                        // ...
                     }
                 });
 
@@ -127,7 +130,9 @@ public class SignInActivity extends AppCompatActivity {
 
     // use intent system to navigate to Main activity
     private void goToMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+        // TODO: change MainActivity_ -> MainActivity
+        // TODO: currently testing and debuging message feature on MainActivity_
+        Intent i = new Intent(this, MainActivity_.class);
         startActivity(i);
         finish();
     }
