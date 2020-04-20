@@ -1,5 +1,6 @@
 package com.codepath.jmckinley.savvyfirebasereboot.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -16,6 +17,7 @@ import com.codepath.jmckinley.savvyfirebasereboot.fragments.ChatsFragment
 import com.codepath.jmckinley.savvyfirebasereboot.fragments.SearchFragment
 import com.codepath.jmckinley.savvyfirebasereboot.fragments.SettingsFragment
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity_ : AppCompatActivity() {
 
@@ -32,9 +34,14 @@ class MainActivity_ : AppCompatActivity() {
         val viewPager: ViewPager = findViewById(R.id.view_pager)
 
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-        viewPagerAdapter.addFragments(ChatsFragment(), "Chats")
-        viewPagerAdapter.addFragments(SearchFragment(), "Search")
-        viewPagerAdapter.addFragments(SettingsFragment(), "Settings")
+//        viewPagerAdapter.addFragments(ChatsFragment(), "Chats")
+//        viewPagerAdapter.addFragments(SearchFragment(), "Search")
+//        viewPagerAdapter.addFragments(SettingsFragment(), "Settings")
+        viewPagerAdapter.addFragments(ChatsFragment(), "Settings")
+        viewPagerAdapter.addFragments(SearchFragment(), "Explore")
+        viewPagerAdapter.addFragments(SettingsFragment(), "Messages")
+        viewPagerAdapter.addFragments(SettingsFragment(), "Calls")
+
 
         viewPager.adapter = viewPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
@@ -50,10 +57,19 @@ class MainActivity_ : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the home/up button so long
         // as you specify a parent activity in AndroidManifest
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.action_logout -> {
+                FirebaseAuth.getInstance().signOut()
+                val intent = Intent(this@MainActivity_, WelcomeActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish()
+
+                return true
+            }
         }
+
+        return false
     }
 
     internal class ViewPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
