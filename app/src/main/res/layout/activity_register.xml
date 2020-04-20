@@ -63,15 +63,6 @@
             android:textColorHint="@android:color/white"/>
 
         <Button
-            android:id="@+id/login_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Login"
-            android:layout_marginTop="25dp"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"/>
-
-        <Button
             android:id="@+id/register_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
