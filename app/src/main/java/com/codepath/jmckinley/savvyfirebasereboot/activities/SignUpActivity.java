@@ -136,7 +136,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     private boolean signUpNewUser(){
 
-        mAuth.createUserWithEmailAndPassword(this.userEmail.getText().toString().trim(), this.userPassword.toString())
+        mAuth.createUserWithEmailAndPassword(this.userEmail.getText().toString().trim(), this.userPassword.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
