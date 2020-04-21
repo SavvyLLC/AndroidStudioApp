@@ -1,12 +1,14 @@
 package com.codepath.jmckinley.savvyfirebasereboot.adapters
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.codepath.jmckinley.savvyfirebasereboot.Models.Users
 import com.codepath.jmckinley.savvyfirebasereboot.R
+import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.user_search_item_layout.view.*
 
@@ -17,16 +19,30 @@ class UserAdapter(
         ) : RecyclerView.Adapter<UserAdapter.ViewHolder?>()
 {
 
+    private val mContext: Context
+    private val mUsers: List<Users>
+    private val isChatCheck: Boolean
+
+    init {
+        this.mContext = mContext
+        this.mUsers = mUsers
+        this.isChatCheck = isChatCheck
+
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        TODO("Not yet implemented")
+        val view: View = LayoutInflater.from(mContext).inflate(R.layout.user_search_item_layout, parent, false)
+        return UserAdapter.ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return mUsers.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val user: Users? = mUsers[position]
+        holder.username_search.text = user!!.getUsername()
+        Picasso.get().load(user.getProfileImage()).placeholder(R.drawable.profileimage).into(holder.profile_image)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
