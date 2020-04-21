@@ -2,6 +2,7 @@ package com.codepath.jmckinley.savvyfirebasereboot.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 //import android.widget.Toolbar
@@ -12,19 +13,47 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.codepath.jmckinley.savvyfirebasereboot.Models.Users
 import com.codepath.jmckinley.savvyfirebasereboot.R
-import com.codepath.jmckinley.savvyfirebasereboot.fragments.ChatsFragment
-import com.codepath.jmckinley.savvyfirebasereboot.fragments.SearchFragment
-import com.codepath.jmckinley.savvyfirebasereboot.fragments.SettingsFragment
+import com.codepath.jmckinley.savvyfirebasereboot.fragments.*
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_main_.*
 
 class MainActivity_ : AppCompatActivity() {
+
+    val TAG: String = "MainActivity_"
+    var fireBaseUser: FirebaseUser? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_)
         setSupportActionBar(findViewById(R.id.toolbar_main))
+
+        // create reference to firestore
+        fireBaseUser = FirebaseAuth.getInstance().currentUser
+        var firestoreDB = FirebaseFirestore.getInstance()
+
+        val docRef = firestoreDB.collection("users").document(fireBaseUser!!.uid)
+        docRef.get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if(documentSnapshot.exists()){
+                        // store snapshot into p0
+                        val p0 = documentSnapshot.toObject(Users::class.java)
+
+                        // get profile image and username to display on toolbar
+                        user_name.text = p0!!.getUsername()
+                        Picasso.get().load(p0.getProfileImage()).placeholder(R.drawable.profileimage).into(profile_image)
+                    }
+        }
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_main)
         setSupportActionBar(toolbar)
@@ -34,17 +63,15 @@ class MainActivity_ : AppCompatActivity() {
         val viewPager: ViewPager = findViewById(R.id.view_pager)
 
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-//        viewPagerAdapter.addFragments(ChatsFragment(), "Chats")
-//        viewPagerAdapter.addFragments(SearchFragment(), "Search")
-//        viewPagerAdapter.addFragments(SettingsFragment(), "Settings")
-        viewPagerAdapter.addFragments(ChatsFragment(), "Settings")
-        viewPagerAdapter.addFragments(SearchFragment(), "Explore")
-        viewPagerAdapter.addFragments(SettingsFragment(), "Messages")
-        viewPagerAdapter.addFragments(SettingsFragment(), "Calls")
 
+        viewPagerAdapter.addFragments(PreferenceFragment(), "Settings")
+        viewPagerAdapter.addFragments(SwipeFragment(), "Explore")
+        viewPagerAdapter.addFragments(ChatsFragment(), "Messages")
+        viewPagerAdapter.addFragments(CallFragment(), "Calls")
 
         viewPager.adapter = viewPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

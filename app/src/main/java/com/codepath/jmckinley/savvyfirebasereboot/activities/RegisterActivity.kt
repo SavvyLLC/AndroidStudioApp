@@ -7,6 +7,7 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.codepath.jmckinley.savvyfirebasereboot.Models.Users
 import com.codepath.jmckinley.savvyfirebasereboot.R
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
@@ -16,6 +17,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
+
+    val TAG: String = "RegisterActivity"
 
     // Access a Cloud Firestore instance from your Activity
     val firestoreDB = FirebaseFirestore.getInstance()
@@ -71,7 +74,18 @@ class RegisterActivity : AppCompatActivity() {
                             // capture the users unique id
                             firebaseUserId = mAuth.currentUser!!.uid
 
-                            // create  a hashmap to create a document
+//                            var user: Users = Users(firebaseUserId,
+//                                    "https://firebasestorage.googleapis.com/v0/b/savvyllcreboot.appspot.com/o/coverphoto.jpeg?alt=media&token=4f087d69-e669-4d5c-8b62-2c138b14b462",
+//                                    "https://m.facebook.com",
+//                                    "https://firebasestorage.googleapis.com/v0/b/savvyllcreboot.appspot.com/o/profileimage.jpeg?alt=media&token=4235769f-0e2d-40ec-aacb-931b5d2c56b8",
+//                                    username.toLowerCase(),
+//                                    "offline",
+//                                    username,
+//                                    "http://www.isaiahmcnealy.com")
+
+
+
+//                          create  a hashmap to create a document
                             val userHashMap = HashMap<String, Any>()
 
                             // set user information
@@ -81,8 +95,7 @@ class RegisterActivity : AppCompatActivity() {
                             userHashMap["coverImage"] = "https://firebasestorage.googleapis.com/v0/b/savvyllcreboot.appspot.com/o/coverphoto.jpeg?alt=media&token=4f087d69-e669-4d5c-8b62-2c138b14b462"
                             userHashMap["status"] = "offline"
                             userHashMap["search"] = username.toLowerCase()
-                            userHashMap["facebook"] = "https://m.facebook.com"
-                            userHashMap["instagram"] = "https://m.instagram.com"
+                            userHashMap["linkedin"] = "https://m.linkedin.com"
                             userHashMap["website"] = "http://www.isaiahmcnealy.com"
 
                             // fit the assigned data to the current user's document
@@ -106,7 +119,7 @@ class RegisterActivity : AppCompatActivity() {
                                             finish()
                                         }
                                     }
-
+//
 
                         } else {
                             Toast.makeText(this@RegisterActivity, "Error Message: " + task.exception!!.message.toString(), Toast.LENGTH_LONG).show()
