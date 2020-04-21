@@ -64,10 +64,11 @@ class MainActivity_ : AppCompatActivity() {
 
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
 
-        viewPagerAdapter.addFragments(PreferenceFragment(), "Settings")
-        viewPagerAdapter.addFragments(SwipeFragment(), "Explore")
+        //viewPagerAdapter.addFragments(SwipeFragment(), "Explore")
         viewPagerAdapter.addFragments(ChatsFragment(), "Messages")
         viewPagerAdapter.addFragments(CallFragment(), "Calls")
+        viewPagerAdapter.addFragments(SettingsFragment(), "Settings")
+
 
         viewPager.adapter = viewPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
