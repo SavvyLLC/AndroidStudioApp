@@ -25,6 +25,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_main_.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
@@ -197,6 +198,7 @@ class SettingsFragment : Fragment() {
 
                                     // get profile image and username to display on toolbar
                                     username_settings.text = user!!.getUsername()
+
                                     Picasso.get().load(user.getProfileImage()).placeholder(R.drawable.profileimage).into(profile_image_settings)
                                     Picasso.get().load(user.getCoverImage()).placeholder(R.drawable.coverphoto).into(cover_image_settings)
                                 }
