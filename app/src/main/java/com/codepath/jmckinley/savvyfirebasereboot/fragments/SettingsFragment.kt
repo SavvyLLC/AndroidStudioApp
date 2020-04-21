@@ -1,7 +1,9 @@
 package com.codepath.jmckinley.savvyfirebasereboot.fragments
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import com.codepath.jmckinley.savvyfirebasereboot.Models.Users
 
@@ -16,14 +19,12 @@ import com.codepath.jmckinley.savvyfirebasereboot.R
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_main_.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
@@ -37,6 +38,7 @@ class SettingsFragment : Fragment() {
     private var imageURI: Uri? = null
     private var storageRef: StorageReference? = null
     private var coverChecker: String? = null
+    private var socialCheck: String? = null
 
     var firestoreDB = FirebaseFirestore.getInstance()
     var fireBaseUser = FirebaseAuth.getInstance().currentUser
@@ -65,18 +67,68 @@ class SettingsFragment : Fragment() {
 
 
         view.profile_image_settings.setOnClickListener {
-            changeImage()
+            pickImageFile()
         }
 
         view.cover_image_settings.setOnClickListener {
             coverChecker = "cover"
-            changeImage()
+            pickImageFile()
+        }
+
+        view.set_linkedin.setOnClickListener {
+            socialCheck = "linkedin"
+            setSocialLink()
+        }
+
+        view.set_website.setOnClickListener {
+            socialCheck = "website"
+            setSocialLink()
         }
 
         return view
     }
 
-    private fun changeImage(){
+    private fun setSocialLink() {
+        val builder: AlertDialog.Builder =
+                AlertDialog.Builder(requireContext(), R.style.Theme_AppCompat_DayNight_Dialog_Alert)
+
+        if (socialCheck == "website") {
+            builder.setTitle("Write Url: ")
+        } else {
+            builder.setTitle("Write LinkedIn Name: ")
+        }
+        val editText = EditText(context)
+
+        if (socialCheck == "website") {
+            editText.hint = "e.g. www.example.com"
+        } else {
+            editText.hint = "e.g. username"
+        }
+        builder.setView(editText)
+
+        builder.setPositiveButton("Create", DialogInterface.OnClickListener { dialog, which ->
+            var str = editText.text.toString()
+
+            if (str == null) {
+                Toast.makeText(context, "Cannot be empty", Toast.LENGTH_SHORT).show()
+            } else {
+                saveSocialLink(str)
+            }
+        })
+
+        builder.setPositiveButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+            dialog.cancel()
+        })
+
+        builder.show()
+    }
+
+    private fun saveSocialLink(str: String) {
+        TODO("Not yet implemented")
+    }
+
+
+    private fun pickImageFile(){
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
@@ -142,7 +194,6 @@ class SettingsFragment : Fragment() {
                                 if(documentSnapshot.exists()){
                                     // store snapshot into
                                     val user: Users? = documentSnapshot.toObject(Users::class.java)
-
 
                                     // get profile image and username to display on toolbar
                                     username_settings.text = user!!.getUsername()

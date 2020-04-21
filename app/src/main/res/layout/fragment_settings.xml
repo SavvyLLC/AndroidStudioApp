@@ -61,7 +61,7 @@
         android:layout_below="@id/cv1"
         android:gravity="center"
         android:background="@color/colorProfile"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         android:padding="6dp">
 
@@ -80,7 +80,16 @@
             android:layout_height="60dp"
             android:src="@drawable/website"
             android:layout_marginTop="3dp"
-            android:layout_marginRight="35dp"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:id="@+id/set_resume"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/fb"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="35dp"
             android:layout_gravity="center"/>
 
     </LinearLayout>

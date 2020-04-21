@@ -139,35 +139,35 @@ public class SwipeFragment extends Fragment {
         startActivity(i);
     }
 
-    private void goToEditProfile() {
-        Intent i = new Intent(getActivity(), EditProfileActivity.class);
-        startActivity(i);
-    }
-
-    private void goToLogin() {
-        Intent i = new Intent(getActivity(), SignInActivity.class);
-        startActivity(i);
-    }
-
-    private void goToMainActivity() {
-        Intent i = new Intent(getActivity(), MainActivity.class);
-        startActivity(i);
-    }
-
-    private void goToPreferenceActivity() {
-        Intent i = new Intent(getActivity(), PreferenceActivity.class);
-        startActivity(i);
-    }
-
-    private void goToMessageActivity() {
-        Intent i = new Intent(getActivity(), MessageActivity.class);
-        startActivity(i);
-    }
-
-    private void goToCallActivity() {
-        Intent i = new Intent(getActivity(), CallActivity.class);
-        startActivity(i);
-    }
+//    private void goToEditProfile() {
+//        Intent i = new Intent(getActivity(), EditProfileActivity.class);
+//        startActivity(i);
+//    }
+//
+//    private void goToLogin() {
+//        Intent i = new Intent(getActivity(), SignInActivity.class);
+//        startActivity(i);
+//    }
+//
+//    private void goToMainActivity() {
+//        Intent i = new Intent(getActivity(), MainActivity.class);
+//        startActivity(i);
+//    }
+//
+//    private void goToPreferenceActivity() {
+//        Intent i = new Intent(getActivity(), PreferenceActivity.class);
+//        startActivity(i);
+//    }
+//
+//    private void goToMessageActivity() {
+//        Intent i = new Intent(getActivity(), MessageActivity.class);
+//        startActivity(i);
+//    }
+//
+//    private void goToCallActivity() {
+//        Intent i = new Intent(getActivity(), CallActivity.class);
+//        startActivity(i);
+//    }
 
 
 

@@ -43,9 +43,9 @@ public class DetailedUserSelection extends AppCompatActivity {
         fireStore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        if(mAuth.getCurrentUser() == null){
-            goToMainActivity();
-        }
+//        if(mAuth.getCurrentUser() == null){
+//            goToMainActivity_();
+//        }
 
         this.briefBio = findViewById(R.id.userSelectionBriefBio);
         this.universityName = findViewById(R.id.userSelectionUniveristy);
@@ -96,7 +96,7 @@ public class DetailedUserSelection extends AppCompatActivity {
 
 
     private void goToMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, MainActivity_.class);
         startActivity(i);
     }
 }
