@@ -13,15 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.codepath.jmckinley.savvyfirebasereboot.R;
 import com.codepath.jmckinley.savvyfirebasereboot.activities.CallActivity;
 import com.codepath.jmckinley.savvyfirebasereboot.activities.DetailedUserSelection;
 import com.codepath.jmckinley.savvyfirebasereboot.activities.EditProfileActivity;
+//import com.codepath.jmckinley.savvyfirebasereboot.activities.Obsolete_MainActivity;
 import com.codepath.jmckinley.savvyfirebasereboot.activities.MainActivity;
-import com.codepath.jmckinley.savvyfirebasereboot.activities.MainActivity_;
 import com.codepath.jmckinley.savvyfirebasereboot.activities.MessageActivity;
 import com.codepath.jmckinley.savvyfirebasereboot.activities.PreferenceActivity;
 import com.codepath.jmckinley.savvyfirebasereboot.activities.SignInActivity;
@@ -140,35 +139,35 @@ public class SwipeFragment extends Fragment {
         startActivity(i);
     }
 
-    private void goToEditProfile() {
-        Intent i = new Intent(getActivity(), EditProfileActivity.class);
-        startActivity(i);
-    }
-
-    private void goToLogin() {
-        Intent i = new Intent(getActivity(), SignInActivity.class);
-        startActivity(i);
-    }
-
-    private void goToMainActivity() {
-        Intent i = new Intent(getActivity(), MainActivity_.class);
-        startActivity(i);
-    }
-
-    private void goToPreferenceActivity() {
-        Intent i = new Intent(getActivity(), PreferenceActivity.class);
-        startActivity(i);
-    }
-
-    private void goToMessageActivity() {
-        Intent i = new Intent(getActivity(), MessageActivity.class);
-        startActivity(i);
-    }
-
-    private void goToCallActivity() {
-        Intent i = new Intent(getActivity(), CallActivity.class);
-        startActivity(i);
-    }
+//    private void goToEditProfile() {
+//        Intent i = new Intent(getActivity(), EditProfileActivity.class);
+//        startActivity(i);
+//    }
+//
+//    private void goToLogin() {
+//        Intent i = new Intent(getActivity(), SignInActivity.class);
+//        startActivity(i);
+//    }
+//
+//    private void goToMainActivity() {
+//        Intent i = new Intent(getActivity(), MainActivity.class);
+//        startActivity(i);
+//    }
+//
+//    private void goToPreferenceActivity() {
+//        Intent i = new Intent(getActivity(), PreferenceActivity.class);
+//        startActivity(i);
+//    }
+//
+//    private void goToMessageActivity() {
+//        Intent i = new Intent(getActivity(), MessageActivity.class);
+//        startActivity(i);
+//    }
+//
+//    private void goToCallActivity() {
+//        Intent i = new Intent(getActivity(), CallActivity.class);
+//        startActivity(i);
+//    }
 
 
 
