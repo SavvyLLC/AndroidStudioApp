@@ -59,6 +59,11 @@ public class DetailedUserSelection extends AppCompatActivity {
         String imageUrl = "https://www.gannett-cdn.com/presto/2019/09/11/USAT/ab5c4363-b8ec-40b4-a617-4e0b08a3aa4b-AP_Kevin_Hart_Crash.JPG";
         Picasso.get().load(imageUrl).into(iv);
 
+        //Load Resume from User
+        String imageUrl2 = "https://firebasestorage.googleapis.com/v0/b/savvyllcreboot.appspot.com/o/uploads%2FJ's%20Resume%20copy.pdf?alt=media&token=4d87e46e-1275-4a9f-aa36-a901dfc689cb";
+        Picasso.get().load(imageUrl2).into(this.resumeView);
+
+
         loadUserDetails();
 
     }
