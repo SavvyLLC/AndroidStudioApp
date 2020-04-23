@@ -3,6 +3,8 @@
     package="com.codepath.jmckinley.savvyfirebasereboot">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
@@ -50,6 +52,9 @@
         <activity android:name=".activities.CallActivity" />
         <activity android:name=".activities.MessageActivity" />
         <activity android:name=".activities.PreferenceActivity" />
+
+        <!-- VIDEO CALL CODE -->
+        <activity android:name=".activities.VideoCall_Content_Main" />
     </application>
 
 </manifest>
