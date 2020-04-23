@@ -24,12 +24,19 @@ import com.codepath.jmckinley.savvyfirebasereboot.activities.MainActivity;
 import com.codepath.jmckinley.savvyfirebasereboot.activities.MessageActivity;
 import com.codepath.jmckinley.savvyfirebasereboot.activities.PreferenceActivity;
 import com.codepath.jmckinley.savvyfirebasereboot.activities.SignInActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +51,7 @@ public class SwipeFragment extends Fragment {
     private BottomNavigationView bottomNavigationView;
 
     private ArrayList<String> al;
+    private ArrayList<String> originalAl;
     private ArrayAdapter<String> arrayAdapter;
     private int i;
 
@@ -63,16 +71,49 @@ public class SwipeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //FlingContainer - Begin
+        
+        FirebaseFirestore fStore =  FirebaseFirestore.getInstance();
+        FirebaseAuth mAuth;
 
-        al = new ArrayList<>();
-        al.add("php");
-        al.add("c");
-        al.add("python");
-        al.add("java");
-        al.add("html");
-        al.add("c++");
-        al.add("css");
-        al.add("javascript");
+        // usersList.addAll(do);
+        al = new ArrayList();
+        originalAl = new ArrayList<>();
+
+        //TODO Put Student's view into it's own creation method
+        //Filter users for accounts of type compnay
+        ArrayList usersList = new ArrayList<>();
+        fStore.collection("users")
+                .whereEqualTo("isCompany", true)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+
+                                String fName = document.get("firstName").toString();
+                                String lName = document.get("lastName").toString();
+
+                                al.add(fName +" "+ lName);
+                                originalAl.add(fName + " " +lName);
+
+//                                for (Map.Entry<String, Object> entry : document.getData().entrySet()) {
+//                                    String k = entry.getKey();
+//                                    Object v = entry.getValue();
+//                                    Log.d(TAG, "Key: " + k + ", Value: " + v);
+//                                }
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
+
+        al.add("WELCOME TO SAVVY! Get to Swiping!");
+
 
         arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.item, R.id.helloText, al);
 
@@ -111,7 +152,8 @@ public class SwipeFragment extends Fragment {
              */
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapater){
-                al.add("XML ".concat(String.valueOf(i)));
+                //Quick fix on constantly displaying users from query to be added to back of list
+                al.addAll(originalAl);
                 arrayAdapter.notifyDataSetChanged();
                 Log.d("List", "notified");
                 i++;
@@ -125,7 +167,7 @@ public class SwipeFragment extends Fragment {
                 //TODO Find a better solution to more accurate click detector
                 //Quick fix to detect click
                 if(scrollProgressPercent == 0){
-                    goToDetailedUserSelection();
+                    //goToDetailedUserSelection();
                 }
             }
         });
