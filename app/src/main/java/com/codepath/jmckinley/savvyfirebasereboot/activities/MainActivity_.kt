@@ -66,7 +66,7 @@ class MainActivity_ : AppCompatActivity() {
 
         viewPagerAdapter.addFragments(SwipeFragment(), "Explore")
         viewPagerAdapter.addFragments(ChatsFragment(), "Messages")
-        viewPagerAdapter.addFragments(CallFragment(), "Calls")
+        viewPagerAdapter.addFragments(SearchFragment(), "Search")
         viewPagerAdapter.addFragments(SettingsFragment(), "Settings")
 
 
