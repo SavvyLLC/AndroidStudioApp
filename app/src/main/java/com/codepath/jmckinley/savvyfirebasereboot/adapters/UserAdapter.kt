@@ -41,8 +41,10 @@ class UserAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user: Users? = mUsers[position]
-        holder.username_search.text = user!!.getUsername()
-        Picasso.get().load(user.getProfileImage()).placeholder(R.drawable.profileimage).into(holder.profile_image)
+        // TODO: remove these comments after standardizing the firestore
+        // TODO: all accounts must have the same information
+//        holder.username_search.text = user!!.getUsername()
+//        Picasso.get().load(user.getProfileImage()).placeholder(R.drawable.profileimage).into(holder.profile_image)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
