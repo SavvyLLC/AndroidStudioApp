@@ -29,13 +29,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,9 +55,14 @@ public class SwipeFragment extends Fragment {
 
     private ArrayList<String> al;
     private ArrayList<String> originalAl;
+
+    //Keeps track of all the account maps we've recevied. Conencts the name to a value
+    //Not good for people with same name
+    private HashMap<String, String> accountLogMap;
     private ArrayAdapter<String> arrayAdapter;
     private int i;
 
+    HashMap<String, Boolean> originaFirebaseMatches = new HashMap<String, Boolean>();
 
     public SwipeFragment() {
         // Required empty public constructor
@@ -72,18 +80,19 @@ public class SwipeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //FlingContainer - Begin
         
-        FirebaseFirestore fStore =  FirebaseFirestore.getInstance();
+        final FirebaseFirestore fStore =  FirebaseFirestore.getInstance();
         FirebaseAuth mAuth;
 
         // usersList.addAll(do);
         al = new ArrayList();
         originalAl = new ArrayList<>();
+        accountLogMap = new HashMap<String, String>();
 
         //TODO Put Student's view into it's own creation method
         //Filter users for accounts of type compnay
         ArrayList usersList = new ArrayList<>();
         fStore.collection("users")
-                .whereEqualTo("isCompany", true)
+                .whereEqualTo("isCompany", false)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -97,6 +106,8 @@ public class SwipeFragment extends Fragment {
 
                                 al.add(fName +" "+ lName);
                                 originalAl.add(fName + " " +lName);
+
+                                accountLogMap.put(fName + " " +lName, document.getId());
 
 //                                for (Map.Entry<String, Object> entry : document.getData().entrySet()) {
 //                                    String k = entry.getKey();
@@ -113,7 +124,6 @@ public class SwipeFragment extends Fragment {
 
 
         al.add("WELCOME TO SAVVY! Get to Swiping!");
-
 
         arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.item, R.id.helloText, al);
 
@@ -136,15 +146,52 @@ public class SwipeFragment extends Fragment {
             Disgard a user
              */
             public void onLeftCardExit(Object dataObject){
+
+                Log.d(TAG, "SKIP");
+
                 //Do something on the left!
-                Toast.makeText(getActivity(), "Left!", Toast.LENGTH_LONG).show();
-                Log.d(TAG, "Swipe Left");
+                Toast.makeText(getActivity(), "SKIP!", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onRightCardExit(Object dataObject){
 //                Toast.makeText(MainActivity.this, "Right!", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "Swipe Right");
+
+                if(dataObject.equals("WELCOME TO SAVVY! Get to Swiping!")) return;
+
+
+                //Do something on the left!
+                Toast.makeText(getActivity(), "Left!", Toast.LENGTH_LONG).show();
+
+                fStore.collection("users").document("testStudentForSwiping2").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                originaFirebaseMatches = ((HashMap)(document.get("matches")));
+
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+
+                Log.d(TAG,":DataObject Value: " + dataObject.toString());
+                originaFirebaseMatches.put(accountLogMap.get(dataObject.toString()), false);
+
+                //TODO Do check to see if the user has any matches
+                //Go to this saved user
+                //See if they have the key value, if they do, there's a match, if not no
+
+                //FUTURE: You can query the HashMap to see who the user actually has matches with O(n)
+                fStore.collection("users").document("testStudentForSwiping2").update("matches", originaFirebaseMatches);
+
             }
 
             /*
