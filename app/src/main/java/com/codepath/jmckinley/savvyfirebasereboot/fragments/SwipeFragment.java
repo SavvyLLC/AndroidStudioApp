@@ -40,10 +40,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 /**
  * A simple {@link Fragment} subclass.
+ * Checks to see if anyone has matched with the current entity
  */
+
+interface OnFoundMatchCallBack{
+    public void onFoundMatchingEntity(boolean bool);
+}
 public class SwipeFragment extends Fragment {
 
     public static final String TAG = "SwipeFragment";
@@ -62,7 +68,7 @@ public class SwipeFragment extends Fragment {
     private ArrayAdapter<String> arrayAdapter;
     private int i;
 
-    HashMap<String, Boolean> originaFirebaseMatches = new HashMap<String, Boolean>();
+    HashMap<String, Boolean> originaFirebaseMatches;
 
     public SwipeFragment() {
         // Required empty public constructor
@@ -81,7 +87,10 @@ public class SwipeFragment extends Fragment {
         //FlingContainer - Begin
         
         final FirebaseFirestore fStore =  FirebaseFirestore.getInstance();
-        FirebaseAuth mAuth;
+        final FirebaseAuth mAuth;
+        originaFirebaseMatches =  new HashMap<String, Boolean>();
+
+        mAuth = FirebaseAuth.getInstance();         // Initialize Firebase Auth
 
         // usersList.addAll(do);
         al = new ArrayList();
@@ -154,7 +163,7 @@ public class SwipeFragment extends Fragment {
             }
 
             @Override
-            public void onRightCardExit(Object dataObject){
+            public void onRightCardExit(final Object dataObject){
 //                Toast.makeText(MainActivity.this, "Right!", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "Swipe Right");
 
@@ -183,7 +192,10 @@ public class SwipeFragment extends Fragment {
                 });
 
                 Log.d(TAG,":DataObject Value: " + dataObject.toString());
-                originaFirebaseMatches.put(accountLogMap.get(dataObject.toString()), false);
+
+                boolean matchFound = false;
+
+                originaFirebaseMatches.put(accountLogMap.get(dataObject.toString()), matchFound);
 
                 //TODO Do check to see if the user has any matches
                 //Go to this saved user
@@ -191,8 +203,49 @@ public class SwipeFragment extends Fragment {
 
                 //FUTURE: You can query the HashMap to see who the user actually has matches with O(n)
                 fStore.collection("users").document("testStudentForSwiping2").update("matches", originaFirebaseMatches);
-
             }
+
+            /*
+            Check to see if anyone has matched to the current user
+             */
+//            public boolean checkToSeeIfEntityMatchedWithMe(final OnFoundMatchCallBack callBack, final Object dataObject){
+//
+//
+//                fStore.collection("users")
+//                        .whereEqualTo("isCompany", false)
+//                        .get()
+//                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                                if (task.isSuccessful()) {
+//                                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                                        Log.d(TAG, document.getId() + " => " + document.getData());
+//                                        Map<String, Boolean> matches = (HashMap)document.get("matches");
+//
+//                                        if(matches == null) {
+//                                            Log.d(TAG, "Matches was null!");
+//                                            callBack.onFoundMatchingEntity(false);
+//                                            continue;
+//                                        }
+//
+//                                        if(matches.containsKey(dataObject.toString())){
+//                                            callBack.onFoundMatchingEntity(true);
+//                                            //Update document
+//                                            matches.put(dataObject.toString(), true);
+//                                            fStore.collection("users").document(document.getId()).update("matches", matches);
+//                                    }
+//                                        callBack.onFoundMatchingEntity(false);
+//                                    }
+//                                    } else {
+//                                        Log.d(TAG, "Error getting documents: ", task.getException());
+//                                    }
+//                                }
+//                        });
+//
+//
+//                //No match was found return false
+//                return false;
+//            }
 
             /*
             Detects that adapater is about to empty so fill it in with more information
@@ -219,8 +272,6 @@ public class SwipeFragment extends Fragment {
             }
         });
 
-        //fStore = FirebaseFirestore.getInstance();   // Initialize Firestore
-        mAuth = FirebaseAuth.getInstance();         // Initialize Firebase Auth
     }
 
     private void goToDetailedUserSelection() {

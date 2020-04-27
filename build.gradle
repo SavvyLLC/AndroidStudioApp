@@ -1,7 +1,60 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext.versions = [
+            'butterknife' : '10.2.0',
+    ]
     ext.kotlin_version = '1.3.72'
+
+    ext.keystore = (project.hasProperty('androidKeystore') ?
+            project.property('androidKeystore') : '/fake/path/to/keystore')
+    ext.keystorePassword = (project.hasProperty('androidKeystorePassword') ?
+            project.property('androidKeystorePassword') : 'fakepassword')
+    ext.releaseKeyAlias = (project.hasProperty('androidReleaseKeyAlias') ?
+            project.property('androidReleaseKeyAlias') : 'fakealias')
+    ext.releaseKeyPassword = (project.hasProperty('androidReleaseKeyPassword') ?
+            project.property('androidReleaseKeyPassword') : 'fakepassword')
+
+    ext.getBintrayUsername = {
+        def bintrayUsername  = System.getenv("BINTRAY_USERNAME")
+
+        if (bintrayUsername == null) {
+            logger.log(LogLevel.INFO, "Could not locate BINTRAY_USERNAME environment variable. " +
+                    "Trying local.properties")
+            Properties properties = new Properties()
+            if (project.rootProject.file('local.properties').exists()) {
+                properties.load(project.rootProject.file('local.properties').newDataInputStream())
+                bintrayUsername = properties.getProperty('BINTRAY_USERNAME')
+            }
+        }
+
+        if (bintrayUsername == null) {
+            logger.log(LogLevel.WARN, "Bintray username unavailable.")
+        }
+
+        return bintrayUsername
+    }
+
+    ext.getBintrayPassword = {
+        def bintrayPassword  = System.getenv("BINTRAY_PASSWORD")
+
+        if (bintrayPassword == null) {
+            logger.log(LogLevel.INFO, "Could not locate BINTRAY_PASSWORD environment variable. " +
+                    "Trying local.properties")
+            Properties properties = new Properties()
+            if (project.rootProject.file('local.properties').exists()) {
+                properties.load(project.rootProject.file('local.properties').newDataInputStream())
+                bintrayPassword = properties.getProperty('BINTRAY_PASSWORD')
+            }
+        }
+
+        if (bintrayPassword == null) {
+            logger.log(LogLevel.WARN, "Bintray password unavailable.")
+        }
+
+        return bintrayPassword
+    }
+
     repositories {
         google()
         jcenter()
@@ -11,20 +64,62 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.6.3'
         classpath 'com.google.gms:google-services:4.3.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+
+        classpath "com.jakewharton:butterknife-gradle-plugin:${versions.butterknife}"
+        //classpath "io.fabric.tools:gradle:1.31.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.71"
     }
 }
+
+plugins {
+    id "com.diffplug.gradle.spotless" version "3.13.0"
+}
+apply plugin: "com.diffplug.gradle.spotless"
+spotless {
+    format 'misc', {
+        target '**/*.gradle', '**/*.md', '**/.gitignore'
+
+        trimTrailingWhitespace()
+        indentWithSpaces()
+        endWithNewline()
+    }
+    java {
+        target '**/*.java'
+        googleJavaFormat().aosp()
+    }
+    kotlin {
+        target '**/*.kt'
+        ktlint()
+    }
+}
+
+
 
 allprojects {
     repositories {
         google()
         jcenter()
-        
+
+        maven {
+            url 'https://maven.fabric.io/public'
+        }
+        maven {
+            url  "https://twilio.bintray.com/releases"
+        }
+        maven {
+            url  "https://twilio.bintray.com/internal-releases"
+            credentials {
+                username "${getBintrayUsername()}"
+                password "${getBintrayPassword()}"
+            }
+        }
+        maven {
+            url  "https://twilio.bintray.com/snapshots"
+            credentials {
+                username "${getBintrayUsername()}"
+                password "${getBintrayPassword()}"
+            }
+        }
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
