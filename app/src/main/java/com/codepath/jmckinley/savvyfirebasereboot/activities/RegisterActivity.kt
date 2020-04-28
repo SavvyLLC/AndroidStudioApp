@@ -120,7 +120,7 @@ class RegisterActivity : AppCompatActivity() {
                                     .addOnCompleteListener {
                                         if (task.isSuccessful){
                                             // navigate back to main activity
-                                            val intent = Intent(this@RegisterActivity, MainActivity_::class.java)
+                                            val intent = Intent(this@RegisterActivity, SignUpActivity::class.java)
                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                                             startActivity(intent)
                                             finish()

@@ -50,6 +50,7 @@ class MainActivity_ : AppCompatActivity() {
                         val userSnapshot = documentSnapshot.toObject(Users::class.java)
 
                         // get profile image and username to display on toolbar
+                        // TODO: Check that user has an image and username
                         user_name.text = userSnapshot!!.getUsername()
                         Picasso.get().load(userSnapshot.getProfileImage()).placeholder(R.drawable.profileimage).into(profile_image)
                     }

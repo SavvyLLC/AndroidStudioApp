@@ -1,9 +1,5 @@
 package com.codepath.jmckinley.savvyfirebasereboot.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,15 +14,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.codepath.jmckinley.savvyfirebasereboot.R;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +37,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     EditText lastName;
     EditText userBriefBio;
     EditText userMajor;
+    EditText linkedIn;
+    EditText website;
     //EditText userUniversity;
 
     Button signUpButton;
@@ -58,19 +58,28 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
 
 
-    FirebaseAuth mAuth;
+    FirebaseUser mAuth;
+    FirebaseAuth firebaseAuth;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_up2);
 
-        this.userEmail = findViewById(R.id.signUpEmail);
-        this.userPassword = findViewById(R.id.signUpPassword);
+//        // check if user is currently signed in
+//        if (firebaseAuth.getCurrentUser() != null) {
+//            startIntentToMainActivity();
+//            finish();
+//        }
+
+//        this.userEmail = findViewById(R.id.signUpEmail);
+//        this.userPassword = findViewById(R.id.signUpPassword);
         this.firstName = findViewById(R.id.signUpFirstName);
         this.lastName = findViewById(R.id.signUpLastName);
         this.userMajor = findViewById(R.id.signUpMajor);
+        this.linkedIn = findViewById(R.id.signUpLinkedIn);
+        this.website = findViewById(R.id.signUpWebsite);
         //this.schoolName = findViewById(R.id.si);
         this.userBriefBio = findViewById(R.id.signUpUserBriefBio);
         this.signUpButton = findViewById(R.id.signUpButton);
@@ -81,8 +90,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
 
         //Hide the keyboard for input types
-        userEmail.setInputType(0);
-        userPassword.setInputType(0);
+//        userEmail.setInputType(0);
+//        userPassword.setInputType(0);
         userBriefBio.setInputType(0);
 
         Spinner spinner = findViewById(R.id.selectSchoolSpinner);
@@ -95,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
 
         //Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance().getCurrentUser();
 
         db = FirebaseFirestore.getInstance();
 
@@ -103,7 +112,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onClick(View v) {
                 if(checkForRequredEntriesAreFilled())
-                    signUpNewUser();
+                    loadAdditionalInfoForUser();
 
             }
         });
@@ -115,10 +124,9 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     public boolean checkForRequredEntriesAreFilled(){
         //Checks String Entries
         //schoolName is talking about toString()
-        if(this.userEmail.getText().toString() == "" || this.userPassword.getText().toString() == "" ||
-           this.firstName.getText().toString() == "" || this.lastName.getText().toString() == "" || userBriefBio.getText().toString() == "" ||
+        if(this.firstName.getText().toString() == "" || this.lastName.getText().toString() == "" || userBriefBio.getText().toString() == "" ||
             this.userMajor.getText().toString() == "" || this.userUniversity == ""){
-            Toast.makeText(this, "An Entry was left blank", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "A Required Entry was left blank", Toast.LENGTH_LONG).show();
             return false;
         }
         //Checks Radio Buttons
@@ -134,37 +142,41 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         return true;
     }
 
-    private boolean signUpNewUser(){
-
-        mAuth.createUserWithEmailAndPassword(this.userEmail.getText().toString().trim(), this.userPassword.getText().toString())
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        loadAdditionalInfoForUser();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "Failed to Sign Up User");
-            }
-        });
-
-        return true;
-    }
+//    private boolean signUpNewUser(){
+//
+//        mAuth.createUserWithEmailAndPassword(this.userEmail.getText().toString().trim(), this.userPassword.getText().toString())
+//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        loadAdditionalInfoForUser();
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d(TAG, "Failed to Sign Up User");
+//            }
+//        });
+//
+//        return true;
+//    }
 
     /*
     Loads fields into Firebase
      */
-    private boolean loadAdditionalInfoForUser(){
+    private void loadAdditionalInfoForUser(){
 
         // Access a Cloud Firestore instance from your Activity
         db = FirebaseFirestore.getInstance();
         Map<String, Object> userAccountInfo = new HashMap<>();
         userAccountInfo.put("firstName", this.firstName.getText().toString().trim());
         userAccountInfo.put("lastName",  this.lastName.getText().toString().trim());
-        userAccountInfo.put("briefBio", this.userBriefBio.getText().toString().trim());
+        userAccountInfo.put("linkedin",  this.linkedIn.getText().toString().trim());
+        userAccountInfo.put("website",  this.website.getText().toString().trim());
+        userAccountInfo.put("username",  this.firstName.getText().toString().trim() + " " + this.lastName.getText().toString().trim());
+        userAccountInfo.put("about", this.userBriefBio.getText().toString().trim());
+        userAccountInfo.put("search", (this.firstName.getText().toString().trim() + " " + this.lastName.getText().toString().trim()).toLowerCase());
         RadioButton rb = findViewById(this.radioGroup.getCheckedRadioButtonId());
-        userAccountInfo.put("School", rb.getText().toString());
+        userAccountInfo.put("university", rb.getText().toString());
         userAccountInfo.put("major", this.userMajor.getText().toString().trim());
 
         if(this.companyRadioButton.isChecked())
@@ -178,7 +190,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         db.collection("users")
                 .document(mAuth.getUid())
-                .set(userAccountInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                .update(userAccountInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG,"Failed to create document");
@@ -193,14 +205,11 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         Log.d(TAG, "Bottom of METHOD(LAST CALL)");
 
-        return true;
     }
 
-    public boolean startIntentToMainActivity(){
-        Intent i = new Intent(SignUpActivity.this, MainActivity.class);
+    public void startIntentToMainActivity(){
+        Intent i = new Intent(SignUpActivity.this, MainActivity_.class);
         startActivity(i);
-
-        return true;
     }
 
     @Override

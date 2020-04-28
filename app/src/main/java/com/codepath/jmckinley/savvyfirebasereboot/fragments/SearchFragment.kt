@@ -101,6 +101,9 @@ class SearchFragment : Fragment() {
 
         // Query data: retrieve ALL users in the users collections
         val refUsers = FirebaseFirestore.getInstance().collection("users")
+        // TODO: change path to current users matches in firestore
+//        val refUsers = FirebaseFirestore.getInstance().collection("users").document("matches")
+
 
         // When data is changed in the collection
         refUsers.addSnapshotListener { snapshot, e ->
