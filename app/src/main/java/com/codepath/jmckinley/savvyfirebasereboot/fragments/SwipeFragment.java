@@ -200,19 +200,62 @@ public class SwipeFragment extends Fragment {
 //                Toast.makeText(MainActivity.this, "Right!", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "Swipe Right");
 
-                if(dataObject.equals("WELCOME TO SAVVY! Get to Swiping!")) return;
+//                             if(dataObject.equals("WELCOME TO SAVVY! Get to Swiping!")) return;
 
 
-                //Do something on the left!
-                Toast.makeText(getActivity(), "Left!", Toast.LENGTH_LONG).show();
+                //Card we're swiping on should match with currently logged in user
+                Cards card = (Cards)dataObject;
+                final String selectedUserId = card.getUserId();
 
-                fStore.collection("users").document("testStudentForSwiping2").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+                fStore.collection("users").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
+                            final DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                originaFirebaseMatches = ((HashMap)(document.get("matches")));
+                                originaFirebaseMatches =  new HashMap<String, Boolean>();
+
+                                //Add original Data
+                                if(document.get("matches") != null)
+                                    originaFirebaseMatches.putAll((HashMap)document.get("matches")); //Plus copy previous information
+
+                                //If it doesn't contain the userId insert a new Map enetry
+                                if(!originaFirebaseMatches.containsKey(selectedUserId))
+                                    originaFirebaseMatches.put(selectedUserId, false);
+
+                                //Compare with selected User Data
+                                fStore.collection("users").document(selectedUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                                        DocumentSnapshot documentSelectedUser = task.getResult();
+                                        if(documentSelectedUser.exists()) {
+
+                                            HashMap<String, Boolean> selectedFireBaseMatches = new HashMap<String, Boolean>();
+                                            if((HashMap)documentSelectedUser.get("matches") != null)
+                                                selectedFireBaseMatches.putAll((HashMap)documentSelectedUser.get("matches"));
+
+                                            //WE HAVE A MATCH
+                                            if(selectedFireBaseMatches.containsKey(mAuth.getUid())) {
+                                                selectedFireBaseMatches.put(mAuth.getUid(), true);
+                                                originaFirebaseMatches.put(selectedUserId, true);
+
+                                                //Update Selected
+                                                fStore.collection("users").document(selectedUserId).update("matches",selectedFireBaseMatches);
+
+                                                //Update Original
+                                                fStore.collection("users").document(mAuth.getUid()).update("matches", originaFirebaseMatches);
+                                            }
+                                            else {
+
+                                                fStore.collection("users").document(mAuth.getUid()).update("matches", originaFirebaseMatches);
+                                            }
+                                        }
+                                    }
+                                });
+
+
 
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             } else {
@@ -224,18 +267,7 @@ public class SwipeFragment extends Fragment {
                     }
                 });
 
-                Log.d(TAG,":DataObject Value: " + dataObject.toString());
 
-                boolean matchFound = false;
-
-                originaFirebaseMatches.put(accountLogMap.get(dataObject.toString()), matchFound);
-
-                //TODO Do check to see if the user has any matches
-                //Go to this saved user
-                //See if they have the key value, if they do, there's a match, if not no
-
-                //FUTURE: You can query the HashMap to see who the user actually has matches with O(n)
-                fStore.collection("users").document("testStudentForSwiping2").update("matches", originaFirebaseMatches);
             }
 
             /*
