@@ -16,6 +16,7 @@ import com.codepath.jmckinley.savvyfirebasereboot.R
 import com.codepath.jmckinley.savvyfirebasereboot.adapters.UserAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 /**
  * TODO: This fragment will display all the users that you have matched with
@@ -68,6 +69,35 @@ class SearchFragment : Fragment() {
     // retrieve all the users from FireStore
     private fun retrieveAllUsers() {
         var firebaseUserID = FirebaseAuth.getInstance().currentUser!!.uid
+
+
+        /*
+        Matches Example:
+          <UTX, true> //YOU HAVE A MATCH WITH THIS PERSON
+          <WYX, true> //YOU HAVE A MATCH WITH THIS PERSON
+          <ABC, false> //You don't
+
+
+        Get the matches of the Map from the currently logged in user and filter for the IDs in the hashmap that have a value of
+        true set next to them. Once, you have the ID, you can doing anything in Firestore
+         */
+        //Java Code to get
+//        FirebaseFirestore.getInstance().collection("users")
+//                .document(FirebaseAuth.getInstance().uid.toString()).get().addOnCompleteListener { new OnCompleteLIstener(){
+//
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            final DocumentSnapshot document = task.getResult();
+//                            //Safety Check
+//                            if (document.exists()) {
+//
+//                                HashMap<String, Boolean> hashMap = (HashMap)document.get("matches");
+//                                for (Map.Entry<String,Boolean> entry : hashmap.entrySet())
+//                                    finalMatchesResults.add(entry.getKey());
+//                            }
+//                        }
+//                    }
+//                    });
 
         // Query data: retrieve ALL users in the users collections
         val refUsers = FirebaseFirestore.getInstance().collection("users")
