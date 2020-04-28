@@ -18,18 +18,74 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        testInstrumentationRunner "com.twilio.video.app.InstrumentationRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file(keystore)
+            storePassword keystorePassword
+            keyAlias releaseKeyAlias
+            keyPassword releaseKeyPassword
+        }
+        debug {
+            storeFile file('video-android-app.keystore')
+            storePassword 'android'
+            keyAlias 'debug'
+            keyPassword 'android'
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            signingConfig signingConfigs.debug
         }
     }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
+
+    flavorDimensions "environment"
+
+    productFlavors {
+//        internal {
+//            dimension "environment"
+//            applicationId "com.twilio.video.app"
+//            buildConfigField 'String', 'ENVIRONMENT_DEFAULT', '"production"'
+//            buildConfigField 'String', 'APPCENTER_APP_KEY',
+//                    "\"${getLocalProperty("APPCENTER_APP_KEY")}\""
+//        }
+//
+//        twilio {
+//            dimension "environment"
+//            buildConfigField 'String', 'ENVIRONMENT_DEFAULT', '"production"'
+//        }
+
+//        community {
+//            dimension "environment"
+//            applicationId "com.twilio.video.app.community"
+//            buildConfigField 'String', 'ENVIRONMENT_DEFAULT', '"production"'
+//            buildConfigField("String",
+//                    "TWILIO_ACCESS_TOKEN",
+//                    "\"${getLocalProperty("TWILIO_ACCESS_TOKEN")}\"")
+//        }
+    }
+
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+
+        // Ignore twilio debug and community release builds
+        if ((names.contains("twilio") && variant.buildType.name == "debug") ||
+                (names.contains("community") && variant.buildType.name == "release")) {
+            setIgnore(true)
         }
     }
+
     compileOptions {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
