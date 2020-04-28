@@ -13,22 +13,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.codepath.jmckinley.savvyfirebasereboot.Models.Cards;
 import com.codepath.jmckinley.savvyfirebasereboot.R;
-import com.codepath.jmckinley.savvyfirebasereboot.activities.CallActivity;
 import com.codepath.jmckinley.savvyfirebasereboot.activities.DetailedUserSelection;
-import com.codepath.jmckinley.savvyfirebasereboot.activities.EditProfileActivity;
 //import com.codepath.jmckinley.savvyfirebasereboot.activities.Obsolete_MainActivity;
 import com.codepath.jmckinley.savvyfirebasereboot.activities.MainActivity;
-import com.codepath.jmckinley.savvyfirebasereboot.activities.MessageActivity;
-import com.codepath.jmckinley.savvyfirebasereboot.activities.PreferenceActivity;
-import com.codepath.jmckinley.savvyfirebasereboot.activities.SignInActivity;
+import com.codepath.jmckinley.savvyfirebasereboot.adapters.arrayAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -36,20 +33,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
 
 /**
  * A simple {@link Fragment} subclass.
  * Checks to see if anyone has matched with the current entity
  */
 
-interface OnFoundMatchCallBack{
-    public void onFoundMatchingEntity(boolean bool);
-}
+
 public class SwipeFragment extends Fragment {
 
     public static final String TAG = "SwipeFragment";
@@ -59,13 +51,15 @@ public class SwipeFragment extends Fragment {
 
     private BottomNavigationView bottomNavigationView;
 
-    private ArrayList<String> al;
-    private ArrayList<String> originalAl;
+    private Cards cards_data[];
+    private arrayAdapter arrayAdpt;
+
+
+    //private ArrayList<String> originalAl;
 
     //Keeps track of all the account maps we've recevied. Conencts the name to a value
     //Not good for people with same name
     private HashMap<String, String> accountLogMap;
-    private ArrayAdapter<String> arrayAdapter;
     private int i;
 
     HashMap<String, Boolean> originaFirebaseMatches;
@@ -74,13 +68,20 @@ public class SwipeFragment extends Fragment {
         // Required empty public constructor
     }
 
+    ListView listView;
+    List<Cards> rowItems;
+    List<Cards> rowItemsCopy;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_swipe, container, false);
+
     }
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -93,8 +94,10 @@ public class SwipeFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();         // Initialize Firebase Auth
 
         // usersList.addAll(do);
-        al = new ArrayList();
-        originalAl = new ArrayList<>();
+        rowItems = new ArrayList<Cards>();
+        rowItemsCopy = new ArrayList<Cards>();
+
+        //originalAl = new ArrayList<>();
         accountLogMap = new HashMap<String, String>();
 
         //TODO Put Student's view into it's own creation method
@@ -113,8 +116,11 @@ public class SwipeFragment extends Fragment {
                                 String fName = document.get("firstName").toString();
                                 String lName = document.get("lastName").toString();
 
-                                al.add(fName +" "+ lName);
-                                originalAl.add(fName + " " +lName);
+                                Cards item = new Cards(document.getId().toString(), fName +" "+ lName);
+                                rowItems.add(item);
+                                rowItemsCopy.add(item);
+//                                al.add(fName +" "+ lName);
+//                                originalAl.add(fName + " " +lName);
 
                                 accountLogMap.put(fName + " " +lName, document.getId());
 
@@ -132,13 +138,40 @@ public class SwipeFragment extends Fragment {
 
 
 
-        al.add("WELCOME TO SAVVY! Get to Swiping!");
+        //al.add("WELCOME TO SAVVY! Get to Swiping!");
 
-        arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.item, R.id.helloText, al);
+        //For intial load of swipeable cards
+      rowItems.add(new Cards("TEMPID", "Welcome to Savvy!"));
+
+        //Picasso Array Adapter
+
+        String[] eatFoodyImages = {
+                "http://i.imgur.com/rFLNqWI.jpg",
+                "http://i.imgur.com/C9pBVt7.jpg",
+                "http://i.imgur.com/rT5vXE1.jpg",
+                "http://i.imgur.com/aIy5R2k.jpg",
+                "http://i.imgur.com/MoJs9pT.jpg",
+                "http://i.imgur.com/S963yEM.jpg",
+                "http://i.imgur.com/rLR2cyc.jpg",
+                "http://i.imgur.com/SEPdUIx.jpg",
+                "http://i.imgur.com/aC9OjaM.jpg",
+                "http://i.imgur.com/76Jfv9b.jpg",
+                "http://i.imgur.com/fUX7EIB.jpg",
+                "http://i.imgur.com/syELajx.jpg",
+                "http://i.imgur.com/COzBnru.jpg",
+                "http://i.imgur.com/Z3QjilA.jpg",
+        };
+
+
+
+
+        //Picasso Array Adapter
+        arrayAdpt = new arrayAdapter(getActivity(), R.layout.item, rowItems);
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) getActivity().findViewById(R.id.frame);
 
-        flingContainer.setAdapter(arrayAdapter);
+        //ImageListAdapter imageListAdapter = new ImageListAdapter(getActivity(), eatFoodyImages);
+        flingContainer.setAdapter(arrayAdpt);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener(){
 
 
@@ -146,8 +179,8 @@ public class SwipeFragment extends Fragment {
             public void removeFirstObjectInAdapter() {
                 //simplest way to delete an object from the adapater
                 Log.d("LIST", "removed object!");
-                al.remove(0);
-                arrayAdapter.notifyDataSetChanged();;
+                rowItems.remove(0);
+                arrayAdpt.notifyDataSetChanged();;
             }
 
             @Override
@@ -253,8 +286,9 @@ public class SwipeFragment extends Fragment {
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapater){
                 //Quick fix on constantly displaying users from query to be added to back of list
-                al.addAll(originalAl);
-                arrayAdapter.notifyDataSetChanged();
+                //TODO Put the rowItems reseter down here
+                rowItems.addAll(rowItemsCopy);
+                arrayAdpt.notifyDataSetChanged();
                 Log.d("List", "notified");
                 i++;
             }
