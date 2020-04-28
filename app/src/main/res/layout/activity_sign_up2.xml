@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark">
+
+
+    <EditText
+        android:id="@+id/signUpFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="#00FFFFFF"
+        android:ems="10"
+        android:hint="First Name"
+        android:inputType="textEmailAddress"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="20sp"
+         />
+
+    <EditText
+        android:id="@+id/signUpLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="#00FFFFFF"
+        android:ems="10"
+        android:hint="Last Name"
+        android:inputType="textEmailAddress"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/signUpMajor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="#00FFFFFF"
+        android:ems="10"
+        android:hint="Major"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="20dp" />
+
+
+
+
+    <Spinner
+        android:id="@+id/selectSchoolSpinner"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="#9A78FF"
+        android:padding="10dp"
+        android:text="Select School"
+        android:textColor="#ffffff"
+
+        />
+
+    <RadioGroup
+        android:id="@+id/radioGroupSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp">
+
+        <RadioButton
+            android:id="@+id/companyRadioButton"
+            style="@android:style/Widget.CompoundButton.CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="#9A78FF"
+            android:text="Company"
+            android:textColor="#ffffff"
+
+            android:textSize="25sp" />
+
+        <RadioButton
+            android:id="@+id/studentRadioButton"
+            style="@android:style/Widget.CompoundButton.CheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="#9A78FF"
+            android:text="Student"
+            android:textColor="#ffffff"
+
+            android:textSize="25dp" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/signUpLinkedIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="#00FFFFFF"
+        android:ems="10"
+        android:hint="LinkedIn URL..."
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/signUpWebsite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="#00FFFFFF"
+        android:ems="10"
+        android:hint="Portfolio site URL..."
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/signUpUserBriefBio"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Brief Bio"
+        android:inputType="textMultiLine"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
+        android:textSize="20dp" />
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/signUpButton"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="#ffffff"
+        android:layout_gravity="center"
+        android:text="Sign Up" />
+
+</LinearLayout>
