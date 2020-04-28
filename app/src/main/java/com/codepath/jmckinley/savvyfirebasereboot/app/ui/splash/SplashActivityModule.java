@@ -16,6 +16,8 @@
 
 package com.codepath.jmckinley.savvyfirebasereboot.app.ui.splash;
 
+import com.twilio.video.app.ui.splash.SplashActivity;
+
 import dagger.Binds;
 import dagger.Module;
 import dagger.android.AndroidInjector;

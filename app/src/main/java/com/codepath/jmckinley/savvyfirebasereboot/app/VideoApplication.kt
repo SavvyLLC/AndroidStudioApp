@@ -19,9 +19,11 @@ package com.twilio.video.app
 import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
+import com.codepath.jmckinley.savvyfirebasereboot.app.ApplicationModule
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+
 import timber.log.Timber
 import tvi.webrtc.voiceengine.WebRtcAudioManager.setBlacklistDeviceForOpenSLESUsage
 import tvi.webrtc.voiceengine.WebRtcAudioUtils.deviceIsBlacklistedForOpenSLESUsage
@@ -45,11 +47,11 @@ class VideoApplication : Application(), HasAndroidInjector {
             setBlacklistDeviceForOpenSLESUsage(true)
         }
 
-        DaggerVideoApplicationComponent
-                .builder()
-                .applicationModule(ApplicationModule(this))
-                .build()
-                .inject(this)
+//        DaggerVideoApplicationComponent
+//                .builder()
+//                .applicationModule(ApplicationModule(this))
+//                .build()
+//                .inject(this)
 
         Timber.plant(tree)
 

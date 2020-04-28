@@ -18,7 +18,10 @@ package com.codepath.jmckinley.savvyfirebasereboot.app.data.api;
 
 import android.content.SharedPreferences;
 
-import com.twilio.video.app.ApplicationScope;
+import com.codepath.jmckinley.savvyfirebasereboot.app.ApplicationScope;
+import com.twilio.video.app.data.api.TokenService;
+import com.twilio.video.app.data.api.VideoAppService;
+import com.twilio.video.app.data.api.VideoAppServiceDelegate;
 
 import javax.inject.Named;
 

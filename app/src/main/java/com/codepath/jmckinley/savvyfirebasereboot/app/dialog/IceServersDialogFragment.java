@@ -29,10 +29,10 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-import com.twilio.video.app.R;
-import com.twilio.video.app.adapter.IceServerAdapter;
-import com.twilio.video.app.model.TwilioIceServer;
-import com.twilio.video.app.util.IceOptionsHelper;
+import com.codepath.jmckinley.savvyfirebasereboot.R;
+import com.codepath.jmckinley.savvyfirebasereboot.app.adapter.IceServerAdapter;
+import com.codepath.jmckinley.savvyfirebasereboot.app.model.TwilioIceServer;
+import com.codepath.jmckinley.savvyfirebasereboot.app.util.IceOptionsHelper;
 
 import org.jetbrains.annotations.NotNull;
 

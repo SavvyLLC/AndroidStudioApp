@@ -55,8 +55,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codepath.jmckinley.savvyfirebasereboot.R;
 import com.codepath.jmckinley.savvyfirebasereboot.app.base.BaseActivity;
+import com.codepath.jmckinley.savvyfirebasereboot.app.data.Preferences;
+import com.codepath.jmckinley.savvyfirebasereboot.app.util.CameraCapturerCompat;
+import com.codepath.jmckinley.savvyfirebasereboot.app.util.InputUtils;
+import com.codepath.jmckinley.savvyfirebasereboot.app.util.StatsScheduler;
 import com.google.android.material.snackbar.Snackbar;
+
+
 import com.twilio.video.AspectRatio;
 import com.twilio.video.CameraCapturer;
 import com.twilio.video.LocalAudioTrack;
@@ -75,20 +82,19 @@ import com.twilio.video.RemoteParticipant;
 import com.twilio.video.RemoteVideoTrack;
 import com.twilio.video.RemoteVideoTrackPublication;
 import com.twilio.video.Room;
-import com.twilio.video.Room.State;
 import com.twilio.video.ScreenCapturer;
 import com.twilio.video.StatsListener;
 import com.twilio.video.TwilioException;
 import com.twilio.video.VideoConstraints;
 import com.twilio.video.VideoDimensions;
 import com.twilio.video.VideoTrack;
-import com.twilio.video.app.R;
+import com.twilio.video.app.*;
 import com.twilio.video.app.adapter.StatsListAdapter;
-import com.twilio.video.app.base.BaseActivity;
-import com.twilio.video.app.data.Preferences;
+
 import com.twilio.video.app.data.api.AuthServiceError;
 import com.twilio.video.app.data.api.TokenService;
 import com.twilio.video.app.data.api.VideoAppService;
+import com.twilio.video.app.ui.room.RoomEvent;
 import com.twilio.video.app.ui.room.RoomEvent.ConnectFailure;
 import com.twilio.video.app.ui.room.RoomEvent.Connecting;
 import com.twilio.video.app.ui.room.RoomEvent.DominantSpeakerChanged;
@@ -97,13 +103,12 @@ import com.twilio.video.app.ui.room.RoomEvent.ParticipantDisconnected;
 import com.twilio.video.app.ui.room.RoomEvent.RoomState;
 import com.twilio.video.app.ui.room.RoomEvent.TokenError;
 import com.twilio.video.app.ui.room.RoomManager;
+import com.twilio.video.app.ui.room.RoomViewModel;
 import com.twilio.video.app.ui.room.RoomViewModel.RoomViewModelFactory;
 import com.twilio.video.app.ui.room.UriRoomParser;
 import com.twilio.video.app.ui.room.UriWrapper;
 import com.twilio.video.app.ui.settings.SettingsActivity;
-import com.twilio.video.app.util.CameraCapturerCompat;
-import com.twilio.video.app.util.InputUtils;
-import com.twilio.video.app.util.StatsScheduler;
+
 
 import org.jetbrains.annotations.NotNull;
 
@@ -124,8 +129,7 @@ import static com.twilio.video.AspectRatio.ASPECT_RATIO_11_9;
 import static com.twilio.video.AspectRatio.ASPECT_RATIO_16_9;
 import static com.twilio.video.AspectRatio.ASPECT_RATIO_4_3;
 import static com.twilio.video.Room.State.CONNECTED;
-import static com.twilio.video.app.R.drawable.ic_phonelink_ring_white_24dp;
-import static com.twilio.video.app.R.drawable.ic_volume_up_white_24dp;
+
 import static com.twilio.video.app.data.api.AuthServiceError.EXPIRED_PASSCODE_ERROR;
 
 public class RoomActivity extends BaseActivity {
@@ -419,13 +423,13 @@ public class RoomActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
 
-        inflater.inflate(R.menu.room_menu, menu);
-        settingsMenuItem = menu.findItem(R.id.settings_menu_item);
+        inflater.inflate(R.menu.menu_main, menu);
+        settingsMenuItem = menu.findItem(R.id.editProfileCancel);
         // Grab menu items for updating later
-        switchCameraMenuItem = menu.findItem(R.id.switch_camera_menu_item);
-        pauseVideoMenuItem = menu.findItem(R.id.pause_video_menu_item);
-        pauseAudioMenuItem = menu.findItem(R.id.pause_audio_menu_item);
-        screenCaptureMenuItem = menu.findItem(R.id.share_screen_menu_item);
+        switchCameraMenuItem = menu.findItem(R.id.editProfileCancel);
+        pauseVideoMenuItem = menu.findItem(R.id.editProfileCancel);
+        pauseAudioMenuItem = menu.findItem(R.id.editProfileCancel);
+        screenCaptureMenuItem = menu.findItem(R.id.editProfileCancel);
 
         requestPermissions();
         roomViewModel.getRoomEvents().observe(this, this::bindRoomEvents);
@@ -436,19 +440,19 @@ public class RoomActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.switch_camera_menu_item:
+            case R.id.set_website:
                 switchCamera();
                 return true;
-            case R.id.speaker_menu_item:
+            case R.id.dominant_speaker_img:
                 if (audioManager.isSpeakerphoneOn()) {
                     audioManager.setSpeakerphoneOn(false);
-                    item.setIcon(ic_phonelink_ring_white_24dp);
+                    //item.setIcon(ic_phonelink_ring_white_24dp);
                 } else {
                     audioManager.setSpeakerphoneOn(true);
-                    item.setIcon(ic_volume_up_white_24dp);
+                    //item.setIcon(ic_volume_up_white_24dp);
                 }
                 return true;
-            case R.id.share_screen_menu_item:
+            case R.id.ic_screen_share_white_24dp:
                 String shareScreen = getString(R.string.share_screen);
 
                 if (item.getTitle().equals(shareScreen)) {
@@ -462,13 +466,13 @@ public class RoomActivity extends BaseActivity {
                 }
 
                 return true;
-            case R.id.pause_audio_menu_item:
+            case R.id.login_fragment_container:
                 toggleLocalAudioTrackState();
                 return true;
-            case R.id.pause_video_menu_item:
+            case R.id.participant_no_audio:
                 toggleLocalVideoTrackState();
                 return true;
-            case R.id.settings_menu_item:
+            case R.id.action_settings:
                 removeCameraTrack();
 
                 Intent intent = new Intent(RoomActivity.this, SettingsActivity.class);
@@ -1353,7 +1357,7 @@ public class RoomActivity extends BaseActivity {
             if (room != null) {
                 requestPermissions();
                 if (roomEvent instanceof RoomState) {
-                    State state = room.getState();
+                    Room.State state = room.getState();
                     switch (state) {
                         case CONNECTED:
                             initializeRoom();

@@ -16,6 +16,8 @@
 
 package com.codepath.jmckinley.savvyfirebasereboot.app.ui.settings;
 
+import com.twilio.video.app.ui.settings.SettingsActivity;
+
 import dagger.Binds;
 import dagger.Module;
 import dagger.android.AndroidInjector;

@@ -19,7 +19,9 @@ package com.codepath.jmckinley.savvyfirebasereboot.app.util;
 import android.util.SparseBooleanArray;
 import android.widget.ListView;
 
-import com.twilio.video.app.model.TwilioIceServer;
+//Example of how imports changed
+import com.codepath.jmckinley.savvyfirebasereboot.app.model.TwilioIceServer;
+
 
 import java.util.ArrayList;
 import java.util.List;

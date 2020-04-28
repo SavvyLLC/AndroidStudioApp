@@ -16,6 +16,8 @@
 
 package com.codepath.jmckinley.savvyfirebasereboot.app.ui.room;
 
+import com.twilio.video.app.ui.room.VideoService;
+
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
 

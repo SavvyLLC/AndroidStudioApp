@@ -19,10 +19,18 @@ package com.codepath.jmckinley.savvyfirebasereboot.app.auth;
 import android.app.Application;
 import android.content.Context;
 
+import com.codepath.jmckinley.savvyfirebasereboot.R;
+import com.codepath.jmckinley.savvyfirebasereboot.app.ApplicationModule;
+import com.codepath.jmckinley.savvyfirebasereboot.app.ApplicationScope;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.twilio.video.app.ApplicationModule;
-import com.twilio.video.app.ApplicationScope;
-import com.twilio.video.app.R;
+
+
+import com.twilio.video.app.auth.AuthenticationProvider;
+import com.twilio.video.app.auth.Authenticator;
+import com.twilio.video.app.auth.EmailAuthProvider;
+import com.twilio.video.app.auth.FirebaseAuthenticator;
+import com.twilio.video.app.auth.FirebaseWrapper;
+import com.twilio.video.app.auth.GoogleAuthProvider;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -16,11 +16,12 @@
 
 package com.codepath.jmckinley.savvyfirebasereboot.app;
 
+import com.codepath.jmckinley.savvyfirebasereboot.app.util.CrashlyticsTreeRanger;
+import com.codepath.jmckinley.savvyfirebasereboot.app.util.DebugTree;
+import com.codepath.jmckinley.savvyfirebasereboot.app.util.ReleaseTree;
+import com.twilio.video.BuildConfig;
 import com.twilio.video.LogLevel;
 import com.twilio.video.Video;
-import com.twilio.video.app.util.CrashlyticsTreeRanger;
-import com.twilio.video.app.util.DebugTree;
-import com.twilio.video.app.util.ReleaseTree;
 
 import dagger.Module;
 import dagger.Provides;

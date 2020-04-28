@@ -22,11 +22,17 @@ import dagger.android.AndroidInjector;
 import dagger.multibindings.ClassKey;
 import dagger.multibindings.IntoMap;
 
-@Module(subcomponents = RoomActivitySubcomponent.class)
+@Module(subcomponents = RoomActivityModule.RoomActivitySubcomponent.class)
 public abstract class RoomActivityModule {
     @Binds
     @IntoMap
     @ClassKey(RoomActivity.class)
     abstract AndroidInjector.Factory<?> bindYourActivityInjectorFactory(
-            RoomActivitySubcomponent.Factory builder);
+            Factory builder);
+
+    public class RoomActivitySubcomponent {
+    }
+
+    private class Factory {
+    }
 }
