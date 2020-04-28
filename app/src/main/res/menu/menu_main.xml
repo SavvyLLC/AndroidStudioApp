@@ -10,4 +10,23 @@
         android:title="Logout"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/test_new_message"
+        android:orderInCategory="100"
+        android:title="New Message"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/test_latest_message"
+        android:orderInCategory="100"
+        android:title="Latest Message"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/main_activity_nav"
+        android:orderInCategory="100"
+        android:title="Main Activity"
+        app:showAsAction="never"/>
+
+
 </menu>

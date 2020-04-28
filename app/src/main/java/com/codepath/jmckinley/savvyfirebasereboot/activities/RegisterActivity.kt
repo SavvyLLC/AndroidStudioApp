@@ -93,10 +93,17 @@ class RegisterActivity : AppCompatActivity() {
                             userHashMap["username"] = username
                             userHashMap["profileImage"] = "https://firebasestorage.googleapis.com/v0/b/savvyllcreboot.appspot.com/o/profileimage.jpeg?alt=media&token=4235769f-0e2d-40ec-aacb-931b5d2c56b8"
                             userHashMap["coverImage"] = "https://firebasestorage.googleapis.com/v0/b/savvyllcreboot.appspot.com/o/coverphoto.jpeg?alt=media&token=4f087d69-e669-4d5c-8b62-2c138b14b462"
-                            userHashMap["status"] = "offline"
+                            userHashMap["onlineStatus"] = "offline"
                             userHashMap["search"] = username.toLowerCase()
                             userHashMap["linkedin"] = "https://m.linkedin.com"
                             userHashMap["website"] = "http://www.isaiahmcnealy.com"
+                            userHashMap["about"] = "In a galaxy far far away..."
+                            userHashMap["firstName"] = "firstname"
+                            userHashMap["lastName"] = "lastname"
+                            userHashMap["isCompany"] = false
+                            userHashMap["resume"] = "filepath"
+                            //TODO: create a skills subcollection and allow users to select with buttons
+//                            userHashMap["skills"] = ""
 
                             // fit the assigned data to the current user's document
                             firestoreDB.collection("users")

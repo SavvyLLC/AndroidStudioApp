@@ -1,6 +1,9 @@
 package com.codepath.jmckinley.savvyfirebasereboot.adapters
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +11,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.codepath.jmckinley.savvyfirebasereboot.Models.Users
 import com.codepath.jmckinley.savvyfirebasereboot.R
+import com.codepath.jmckinley.savvyfirebasereboot.activities.MessageChatActivity
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.user_search_item_layout.view.*
 
 class UserAdapter(
         mContext: Context,
@@ -41,10 +44,36 @@ class UserAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user: Users? = mUsers[position]
-        // TODO: remove these comments after standardizing the firestore
-        // TODO: all accounts must have the same information
-//        holder.username_search.text = user!!.getUsername()
-//        Picasso.get().load(user.getProfileImage()).placeholder(R.drawable.profileimage).into(holder.profile_image)
+
+        if (user!!.getProfileImage() != "" && user.getUsername() != ""){
+            holder.username_search.text = user.getUsername()
+            Picasso.get().load(user.getProfileImage()).placeholder(R.drawable.profileimage).into(holder.profile_image)
+
+            holder.itemView.setOnClickListener{
+                val options = arrayOf<CharSequence>(
+                        "Send Message",
+                        "Visit Profile"
+                )
+                val builder: AlertDialog.Builder = AlertDialog.Builder(mContext)
+                builder.setTitle("Go to...")
+                builder.setItems(options, DialogInterface.OnClickListener{dialog, position ->
+                    if (position == 0)
+                    {
+                        // navigate back to user profile
+                        val intent = Intent(mContext, MessageChatActivity::class.java)
+                        intent.putExtra("visit_id", user.getUID())
+                        mContext.startActivity(intent)
+                    }
+
+                    if (position == 1)
+                    {
+
+                    }
+
+                })
+            }
+        }
+
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#e6e6e6"
-    tools:context=".fragments.ChatsFragment">
+    tools:context=".activities.MessageChatActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/barLayout_message_chat"
@@ -15,12 +15,12 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_message_chat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        >
+            android:id="@+id/toolbar_message_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            >
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image_chat"
@@ -30,6 +30,7 @@
             </de.hdodenhof.circleimageview.CircleImageView>
 
             <TextView
+                android:id="@+id/username_mchat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18dp"
