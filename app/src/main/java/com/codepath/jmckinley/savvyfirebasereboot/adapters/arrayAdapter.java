@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.codepath.jmckinley.savvyfirebasereboot.Models.Cards;
 import com.codepath.jmckinley.savvyfirebasereboot.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -32,9 +33,13 @@ public class arrayAdapter extends ArrayAdapter<Cards>{
         TextView name = (TextView) convertView.findViewById(R.id.helloText);
         ImageView image = (ImageView) convertView.findViewById(R.id.resumeViewMainActvity);
 
-
+        //Update the contents of the cards
         name.setText(card_item.getName());
-        image.setImageResource(R.mipmap.ic_launcher);
+        Picasso.get()
+                .load(card_item.getProfileImageUrl())
+                .fit()
+                .into((ImageView)convertView.findViewById(R.id.resumeViewMainActvity));
+
 
 
         return  convertView;

@@ -12,16 +12,18 @@
         android:layout_height="match_parent"
         android:id="@+id/resumeViewMainActvity"
     />
+
     <TextView
         android:id="@+id/helloText"
-        android:textSize="40sp"
-        android:textColor="@android:color/white"
-        android:background="#E339"
-        android:gravity="center"
-        android:text="hello"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="20dp"
+        android:background="#E339"
+        android:gravity="center|left"
+        android:text="hello"
+        android:textColor="@android:color/white"
+        android:textSize="40sp" />
 
     <View
         android:id="@+id/item_swipe_left_indicator"

@@ -116,7 +116,7 @@ public class SwipeFragment extends Fragment {
                                 String fName = document.get("firstName").toString();
                                 String lName = document.get("lastName").toString();
 
-                                Cards item = new Cards(document.getId().toString(), fName +" "+ lName);
+                                Cards item = new Cards(document.getId().toString(), fName +" "+ lName, document.get("profileImage").toString());
                                 rowItems.add(item);
                                 rowItemsCopy.add(item);
 //                                al.add(fName +" "+ lName);
@@ -141,7 +141,7 @@ public class SwipeFragment extends Fragment {
         //al.add("WELCOME TO SAVVY! Get to Swiping!");
 
         //For intial load of swipeable cards
-      rowItems.add(new Cards("TEMPID", "Welcome to Savvy!"));
+      rowItems.add(new Cards("TEMPID", "Welcome to Savvy!", "https://1.bp.blogspot.com/-a9CVxC_p9Eo/Tmb0drWS21I/AAAAAAAAADI/ysbks8dJqUk/s1600/mickey_mouse.jpg"));
 
         //Picasso Array Adapter
 
