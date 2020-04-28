@@ -4,26 +4,23 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codepath.jmckinley.savvyfirebasereboot.Models.Users
-
 import com.codepath.jmckinley.savvyfirebasereboot.R
 import com.codepath.jmckinley.savvyfirebasereboot.adapters.UserAdapter
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.auth.User
-import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.fragment_search.*
 
 /**
- * A simple [Fragment] subclass.
+ * TODO: This fragment will display all the users that you have matched with
+ * TODO: Swap from pulling in all users to only pulling in users that are flagged as matches
+ * TODO: When a user is tapped navigate to the MessageChatActivity where the message will be directed to that user
  */
 class SearchFragment : Fragment() {
 
@@ -35,8 +32,11 @@ class SearchFragment : Fragment() {
     private var search_users_et: EditText? = null
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+
         // Inflate the layout for this fragment
         val view: View =  inflater.inflate(R.layout.fragment_search, container, false)
 
@@ -45,29 +45,27 @@ class SearchFragment : Fragment() {
         recyclerView!!.layoutManager = LinearLayoutManager(context)
         search_users_et = view.findViewById(R.id.search_users_et)
 
-        mUsers = ArrayList()
+        mUsers = ArrayList()    // a list of users to be displayed
         retrieveAllUsers()
 
+        // when user starts typing in the chat
         search_users_et!!.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(s: Editable?) {
-
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
              }
 
+            // when the text is changed do this
             override fun onTextChanged(cs: CharSequence?, start: Int, before: Int, count: Int) {
                 searchForUser(cs.toString().toLowerCase())
              }
-
         })
-
-
 
         return view
     }
 
-
+    // retrieve all the users from FireStore
     private fun retrieveAllUsers() {
         var firebaseUserID = FirebaseAuth.getInstance().currentUser!!.uid
 
@@ -82,12 +80,13 @@ class SearchFragment : Fragment() {
                 return@addSnapshotListener
             }
 
-            // there is data in the snapshot
+            // if there is data in the snapshot
             if (snapshot != null) {
                 Log.d(TAG, "Current data: ${snapshot}")
 
                 // clear array list
                 (mUsers as ArrayList<Users>).clear()
+                // if search bar is NOT empty
                 if (search_users_et!!.text.toString() == "")
 
                 // Query snapshot data
@@ -95,8 +94,9 @@ class SearchFragment : Fragment() {
                         // if successfull
                         .addOnSuccessListener { documents ->
                             // for all the users in a collection
-                            for (document in documents) {
-                                // log all users and their document
+                            for (document in documents)
+                            {
+                                // log all users and their documents ( should include current user)
                                 Log.d(TAG, "Queried  data: ${document.id} => ${document.data}")
 
                                 val user: Users? = document.toObject(Users::class.java)
@@ -105,20 +105,24 @@ class SearchFragment : Fragment() {
                                     // add user to the arrayList of users
                                     (mUsers as ArrayList<Users>).add(user)
                                 }
+
                             }
+
+                            // bind the users to recyclerview using user adapter
                             userAdapter = UserAdapter(requireContext(), mUsers!!, false)
                             recyclerView!!.adapter = userAdapter
                             Log.d(TAG, "Display Current User: ${firebaseUserID} ")
 
+                            // log all the users to be displayed in LogCat (should exclude current user)
                             for (users in mUsers as ArrayList<Users>){
                                 Log.d(TAG, "Display userList: ${users.getUID()}")
                             }
 
                         }
+
                         .addOnFailureListener { exception ->
                             Log.w(TAG, "Error getting documents: ", exception)
                         }
-
 
             } else {
                 Log.d(TAG, "Current data: null")
@@ -171,8 +175,7 @@ class SearchFragment : Fragment() {
                                     (mUsers as ArrayList<Users>).add(user)
                                 }
                             }
-                            userAdapter = UserAdapter(requireContext(), mUsers!!, false)
-                            recyclerView!!.adapter = userAdapter
+
                         } // end addOnSuccecssListener
             } else {
                 Log.d(TAG, "Current data: null")

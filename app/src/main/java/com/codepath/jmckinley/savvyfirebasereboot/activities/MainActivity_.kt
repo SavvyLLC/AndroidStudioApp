@@ -1,29 +1,26 @@
 package com.codepath.jmckinley.savvyfirebasereboot.activities
 
+//import android.widget.Toolbar
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-//import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.codepath.jmckinley.savvyfirebasereboot.Models.Users
 import com.codepath.jmckinley.savvyfirebasereboot.R
-import com.codepath.jmckinley.savvyfirebasereboot.fragments.*
+import com.codepath.jmckinley.savvyfirebasereboot.fragments.CallFragment
+import com.codepath.jmckinley.savvyfirebasereboot.fragments.SearchFragment
+import com.codepath.jmckinley.savvyfirebasereboot.fragments.SettingsFragment
+import com.codepath.jmckinley.savvyfirebasereboot.fragments.SwipeFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.auth.User
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main_.*
 
@@ -38,6 +35,9 @@ class MainActivity_ : AppCompatActivity() {
         setContentView(R.layout.activity_main_)
         setSupportActionBar(findViewById(R.id.toolbar_main))
 
+        // TODO: Remove this code after implementing messaging
+        val intent = Intent()
+
         // create reference to firestore
         fireBaseUser = FirebaseAuth.getInstance().currentUser
         var firestoreDB = FirebaseFirestore.getInstance()
@@ -47,11 +47,11 @@ class MainActivity_ : AppCompatActivity() {
                 .addOnSuccessListener { documentSnapshot ->
                     if(documentSnapshot.exists()){
                         // store snapshot into p0
-                        val p0 = documentSnapshot.toObject(Users::class.java)
+                        val userSnapshot = documentSnapshot.toObject(Users::class.java)
 
                         // get profile image and username to display on toolbar
-                        user_name.text = p0!!.getUsername()
-                        Picasso.get().load(p0.getProfileImage()).placeholder(R.drawable.profileimage).into(profile_image)
+                        user_name.text = userSnapshot!!.getUsername()
+                        Picasso.get().load(userSnapshot.getProfileImage()).placeholder(R.drawable.profileimage).into(profile_image)
                     }
         }
 
@@ -65,10 +65,9 @@ class MainActivity_ : AppCompatActivity() {
         val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
 
         viewPagerAdapter.addFragments(SwipeFragment(), "Explore")
-        viewPagerAdapter.addFragments(ChatsFragment(), "Messages")
-        viewPagerAdapter.addFragments(SearchFragment(), "Search")
+        viewPagerAdapter.addFragments(CallFragment(), "Call")
+        viewPagerAdapter.addFragments(SearchFragment(), "Matches")
         viewPagerAdapter.addFragments(SettingsFragment(), "Settings")
-
 
         viewPager.adapter = viewPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
@@ -98,6 +97,7 @@ class MainActivity_ : AppCompatActivity() {
 
                 return true
             }
+
         }
 
         return false

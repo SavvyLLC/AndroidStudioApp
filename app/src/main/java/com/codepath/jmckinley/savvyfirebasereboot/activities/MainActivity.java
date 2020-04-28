@@ -5,29 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.codepath.jmckinley.savvyfirebasereboot.R;
 import com.codepath.jmckinley.savvyfirebasereboot.fragments.CallFragment;
-import com.codepath.jmckinley.savvyfirebasereboot.fragments.MessageFragment;
 import com.codepath.jmckinley.savvyfirebasereboot.fragments.PreferenceFragment;
 import com.codepath.jmckinley.savvyfirebasereboot.fragments.SwipeFragment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_message:
                         // Load MessageFragment
-                        fragment = new MessageFragment();
+//                        fragment = new MessageFragment();
                         break;
                     case R.id.action_main:
                         // Load SwipeFragment
