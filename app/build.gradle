@@ -6,6 +6,7 @@ apply plugin: 'kotlin-kapt'
 
 
 
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -122,7 +123,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.5.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
 
     implementation 'com.twilio:video-android:5.5.1'
 
