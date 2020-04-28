@@ -174,6 +174,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         userAccountInfo.put("website",  this.website.getText().toString().trim());
         userAccountInfo.put("username",  this.firstName.getText().toString().trim() + " " + this.lastName.getText().toString().trim());
         userAccountInfo.put("about", this.userBriefBio.getText().toString().trim());
+        userAccountInfo.put("search", (this.firstName.getText().toString().trim() + " " + this.lastName.getText().toString().trim()).toLowerCase());
         RadioButton rb = findViewById(this.radioGroup.getCheckedRadioButtonId());
         userAccountInfo.put("university", rb.getText().toString());
         userAccountInfo.put("major", this.userMajor.getText().toString().trim());
