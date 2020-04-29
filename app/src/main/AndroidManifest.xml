@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
+        <activity android:name=".activities.WelcomeActivity"></activity>
         <activity
             android:name=".activities.DetailedUserSelection"
             android:label="@string/title_activity_detailed_user_selection"
@@ -27,7 +27,7 @@
         <!-- android:name=".activities.MainActivity" -->
         <!-- android:label="@string/title_activity_sign_up" -->
         <!-- android:theme="@style/AppTheme.NoActionBar" /> -->
-        <activity android:name=".activities.WelcomeActivity">
+        <activity android:name=".chat.ChatActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,6 +48,7 @@
         <activity android:name=".activities.PreferenceActivity" />
         <activity android:name=".activities.MessageChatActivity" />
 
+
         <service
             android:name=".FirebaseCloudMessaging.MyFirebaseMessagingService"
             android:exported="false">
@@ -55,7 +56,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".activities.MessageChatActivity"
             android:exported="false">
