@@ -10,7 +10,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height = "match_parent">
+        android:layout_height = "match_parent"
+        android:layout_above="@+id/sendLayout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -28,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:id="@+id/sendLayout"
         >
 
         <EditText
@@ -35,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="message..."
+            android:id="@+id/message"
             />
 
         <Button
