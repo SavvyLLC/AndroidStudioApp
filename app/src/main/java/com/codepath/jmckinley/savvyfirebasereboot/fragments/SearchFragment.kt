@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.codepath.jmckinley.savvyfirebasereboot.Models.Users
 import com.codepath.jmckinley.savvyfirebasereboot.R
 import com.codepath.jmckinley.savvyfirebasereboot.adapters.UserAdapter
+import com.codepath.jmckinley.savvyfirebasereboot.fragments.SwipeFragment.TAG
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 
 /**
@@ -66,102 +68,125 @@ class SearchFragment : Fragment() {
         return view
     }
 
+    private inline fun <reified T> genericCastOrNull(anything: Any):T? {
+        return anything as? T
+    }
+
     // retrieve all the users from FireStore
     private fun retrieveAllUsers() {
         var firebaseUserID = FirebaseAuth.getInstance().currentUser!!.uid
 
 
         /*
-        Matches Example:
-          <UTX, true> //YOU HAVE A MATCH WITH THIS PERSON
-          <WYX, true> //YOU HAVE A MATCH WITH THIS PERSON
-          <ABC, false> //You don't
-
-
-        Get the matches of the Map from the currently logged in user and filter for the IDs in the hashmap that have a value of
-        true set next to them. Once, you have the ID, you can doing anything in Firestore
+        Performs Query for getting the matches for the current user
          */
-        //Java Code to get
-//        FirebaseFirestore.getInstance().collection("users")
-//                .document(FirebaseAuth.getInstance().uid.toString()).get().addOnCompleteListener { new OnCompleteLIstener(){
-//
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            final DocumentSnapshot document = task.getResult();
-//                            //Safety Check
-//                            if (document.exists()) {
-//
-//                                HashMap<String, Boolean> hashMap = (HashMap)document.get("matches");
-//                                for (Map.Entry<String,Boolean> entry : hashmap.entrySet())
-//                                    finalMatchesResults.add(entry.getKey());
-//                            }
-//                        }
-//                    }
-//                    });
 
-        // Query data: retrieve ALL users in the users collections
-        val refUsers = FirebaseFirestore.getInstance().collection("users")
-        // TODO: change path to current users matches in firestore
-//        val refUsers = FirebaseFirestore.getInstance().collection("users").document("matches")
+        val refUsers = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().uid.toString())
+        refUsers.get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
 
+                        //TODO Check the matches for current user
+                        var matches = HashMap<String, Boolean>()
+
+                        //Gets matches for user
+                        matches = document["matches"] as HashMap<String, Boolean>
+                        for ((key, value) in matches) {
+                            println("$key = $value")
+
+                            Log.d(TAG, "$key = $value")
+
+                            //If true, there's a match
+                            if(value){
+
+                                FirebaseFirestore.getInstance().collection("users").document(key)
+                                        .get()
+                                        .addOnSuccessListener { documentSnapshot ->
+                                            if(documentSnapshot != null){
+
+                                                // log all users and their documents ( should include current user)
+                                                Log.d(TAG, "Queried  data: ${documentSnapshot.id} => ${documentSnapshot.data}")
+
+                                                val user: Users? = documentSnapshot.toObject(Users::class.java)
+                                                // if user[i] is not the current user
+                                                //TODO Not needed since these queries are from people we don't know
+                                                if(!(user!!.getUID()).equals(firebaseUserID)){
+                                                    // add user to the arrayList of users
+                                                    (mUsers as ArrayList<Users>).add(user)
+                                                }
+                                            }
+                                        }
+                            }
+                        }
+
+                        // bind the users to recyclerview using user adapter
+                        userAdapter = UserAdapter(requireContext(), mUsers!!, false)
+                        recyclerView!!.adapter = userAdapter
+                        Log.d(TAG, "Display Current User: ${firebaseUserID} ")
+
+                        // log all the users to be displayed in LogCat (should exclude current user)
+                        for (users in mUsers as ArrayList<Users>){
+                            Log.d(TAG, "Display userList: ${users.getUID()}")
+                        }
+
+                        Log.d(TAG, "DocumentSnapshot data for current user: ${document.data}")
+                    } else {
+                        Log.d(TAG, "No such document")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "get failed with ", exception)
+                }
 
         // When data is changed in the collection
-        refUsers.addSnapshotListener { snapshot, e ->
-            // if there is an error; log the message
-            if (e != null) {
-                Log.w(TAG, "Listen failed.", e)
-                return@addSnapshotListener
-            }
+//        refUsers.addSnapshotListener { snapshot, e ->
+//            // if there is an error; log the message
+//            if (e != null) {
+//                Log.w(TAG, "Listen failed.", e)
+//                return@addSnapshotListener
+//            }
+//
+//            // if there is data in the snapshot
+//            if (snapshot != null) {
+//                Log.d(TAG, "Current data: ${snapshot}")
+//
+//                // clear array list
+//                (mUsers as ArrayList<Users>).clear()
+//                // if search bar is NOT empty
+//                if (search_users_et!!.text.toString() == "")
+//
+//                // Query snapshot data
+//                refUsers.get()
+//                        // if successfull
+//                        .addOnSuccessListener { documents ->
+//                            // for all the users in a collection
+//                            for (document in documents)
+//                            {
+//                                // log all users and their documents ( should include current user)
+//                                Log.d(TAG, "Queried  data: ${document.id} => ${document.data}")
+//
+//                                val user: Users? = document.toObject(Users::class.java)
+//                                // if user[i] is not the current user
+//                                if(!(user!!.getUID()).equals(firebaseUserID)){
+//                                    // add user to the arrayList of users
+//                                    (mUsers as ArrayList<Users>).add(user)
+//                                }
+//
+//                            }
+//
+//
+//
+//                        }
+//
+//                        .addOnFailureListener { exception ->
+//                            Log.w(TAG, "Error getting documents: ", exception)
+//                        }
+//
+//            } else {
+//                Log.d(TAG, "Current data: null")
+//            }
 
-            // if there is data in the snapshot
-            if (snapshot != null) {
-                Log.d(TAG, "Current data: ${snapshot}")
-
-                // clear array list
-                (mUsers as ArrayList<Users>).clear()
-                // if search bar is NOT empty
-                if (search_users_et!!.text.toString() == "")
-
-                // Query snapshot data
-                refUsers.get()
-                        // if successfull
-                        .addOnSuccessListener { documents ->
-                            // for all the users in a collection
-                            for (document in documents)
-                            {
-                                // log all users and their documents ( should include current user)
-                                Log.d(TAG, "Queried  data: ${document.id} => ${document.data}")
-
-                                val user: Users? = document.toObject(Users::class.java)
-                                // if user[i] is not the current user
-                                if(!(user!!.getUID()).equals(firebaseUserID)){
-                                    // add user to the arrayList of users
-                                    (mUsers as ArrayList<Users>).add(user)
-                                }
-
-                            }
-
-                            // bind the users to recyclerview using user adapter
-                            userAdapter = UserAdapter(requireContext(), mUsers!!, false)
-                            recyclerView!!.adapter = userAdapter
-                            Log.d(TAG, "Display Current User: ${firebaseUserID} ")
-
-                            // log all the users to be displayed in LogCat (should exclude current user)
-                            for (users in mUsers as ArrayList<Users>){
-                                Log.d(TAG, "Display userList: ${users.getUID()}")
-                            }
-
-                        }
-
-                        .addOnFailureListener { exception ->
-                            Log.w(TAG, "Error getting documents: ", exception)
-                        }
-
-            } else {
-                Log.d(TAG, "Current data: null")
-            }
-
-        }   // end snapShotListener
+        //}   // end snapShotListener
 
     }   // end method
 
