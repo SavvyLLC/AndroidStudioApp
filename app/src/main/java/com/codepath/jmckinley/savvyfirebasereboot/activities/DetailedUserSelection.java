@@ -54,10 +54,7 @@ public class DetailedUserSelection extends AppCompatActivity {
 
         this.userName = findViewById(R.id.includedTest).findViewById(R.id.profileHeaderName);
         this.major = findViewById(R.id.includedTest).findViewById(R.id.profileHeaderMajor);
-        //Loads in Profile Image
-        ImageView iv = findViewById(R.id.includedTest).findViewById(R.id.detailedUserSelectionPhoto);
-        String imageUrl = "https://www.gannett-cdn.com/presto/2019/09/11/USAT/ab5c4363-b8ec-40b4-a617-4e0b08a3aa4b-AP_Kevin_Hart_Crash.JPG";
-        Picasso.get().load(imageUrl).into(iv);
+
 
         loadUserDetails();
 
@@ -65,7 +62,10 @@ public class DetailedUserSelection extends AppCompatActivity {
 
     public boolean loadUserDetails(){
 
-        final DocumentReference docRef = fireStore.collection("users").document(mAuth.getUid());
+        Intent intent = getIntent();
+        String selectedUserId = intent.getStringExtra("detailedUserId");
+
+        final DocumentReference docRef = fireStore.collection("users").document(selectedUserId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -78,9 +78,17 @@ public class DetailedUserSelection extends AppCompatActivity {
                         //Loads information into layout
                         userName.setText(document.get("firstName").toString() + " " + document.get("lastName").toString());
                         major.setText(document.get("major").toString());
-                        briefBio.setText(document.get("briefBio").toString());
-                        universityName.setText(document.get("School").toString());
+                        briefBio.setText(document.get("about").toString());
+                        universityName.setText(document.get("university").toString());
 
+                        //Loads in Profile Image
+                        ImageView iv = findViewById(R.id.includedTest).findViewById(R.id.detailedUserSelectionPhoto);
+                        String imageUrl = document.get("profileImage").toString();
+                        Picasso.get().load(imageUrl).into(iv);
+
+                        resumeView = findViewById(R.id.userSelectionResumeView);
+                        imageUrl = document.get("resume").toString(); //Create a new field that creates images of users resumes
+                        Picasso.get().load(imageUrl).into(resumeView);
 
                     } else {
                         Log.d(TAG, "No such document");

@@ -328,12 +328,14 @@ public class SwipeFragment extends Fragment {
             @Override
             public void onScroll(float scrollProgressPercent){
                 Toast.makeText(getActivity(), "click!", Toast.LENGTH_LONG).show();
-                Log.d(TAG, "click!");
+
 
                 //TODO Find a better solution to more accurate click detector
                 //Quick fix to detect click
                 if(scrollProgressPercent == 0){
                     //goToDetailedUserSelection();
+                    Log.d(TAG, "click!");
+                    goToDetailedUserSelection();
                 }
             }
         });
@@ -342,6 +344,7 @@ public class SwipeFragment extends Fragment {
 
     private void goToDetailedUserSelection() {
         Intent i = new Intent(getActivity(), DetailedUserSelection.class);
+        i.putExtra("detailedUserId", rowItems.get(0).getUserId());
         startActivity(i);
     }
 

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.codepath.jmckinley.savvyfirebasereboot.Models.Users
 import com.codepath.jmckinley.savvyfirebasereboot.R
 import com.codepath.jmckinley.savvyfirebasereboot.activities.MessageChatActivity
+import com.codepath.jmckinley.savvyfirebasereboot.chat.ChatActivity
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -54,23 +55,26 @@ class UserAdapter(
                         "Send Message",
                         "Visit Profile"
                 )
-                val builder: AlertDialog.Builder = AlertDialog.Builder(mContext)
-                builder.setTitle("Go to...")
-                builder.setItems(options, DialogInterface.OnClickListener{dialog, position ->
-                    if (position == 0)
-                    {
-                        // navigate back to user profile
-                        val intent = Intent(mContext, MessageChatActivity::class.java)
-                        intent.putExtra("visit_id", user.getUID())
-                        mContext.startActivity(intent)
-                    }
 
-                    if (position == 1)
-                    {
+                // navigate back to user profile
+                val intent = Intent(mContext, ChatActivity::class.java)
+                intent.putExtra("visit_id", user.getUID())
+                mContext.startActivity(intent)
 
-                    }
-
-                })
+//                val builder: AlertDialog.Builder = AlertDialog.Builder(mContext)
+//                builder.setTitle("Go to...")
+//                builder.setItems(options, DialogInterface.OnClickListener{dialog, position ->
+//                    if (position == 0)
+//                    {
+//
+//                    }
+//
+//                    if (position == 1)
+//                    {
+//
+//                    }
+//
+//                })
             }
         }
 
