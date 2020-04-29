@@ -78,7 +78,6 @@ public class SwipeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_swipe, container, false);
-
     }
 
 
@@ -116,7 +115,7 @@ public class SwipeFragment extends Fragment {
                                 String fName = document.get("firstName").toString();
                                 String lName = document.get("lastName").toString();
 
-                                Cards item = new Cards(document.getId().toString(), fName +" "+ lName, document.get("profileImage").toString());
+                                Cards item = new Cards(document.getId().toString(), fName +" "+ lName, document.get("resume").toString());
                                 rowItems.add(item);
                                 rowItemsCopy.add(item);
 //                                al.add(fName +" "+ lName);

@@ -135,8 +135,8 @@ public class EditProfileActivity extends AppCompatActivity {
         docRef.update("firstName", etFirstName.getText().toString().trim());
         docRef.update("lastName", etLastName.getText().toString().trim());
         docRef.update("major", etMajor.getText().toString().trim());
-        docRef.update("School", etUniversity.getText().toString().trim());
-        docRef.update("briefBio", etBriefBio.getText().toString().trim());
+        docRef.update("university", etUniversity.getText().toString().trim());
+        docRef.update("about", etBriefBio.getText().toString().trim());
 
         //If they don't equal, there was a change in account type
         if(isCompanyInitialValue != isCompanyRadioBtn.isChecked()){
@@ -166,8 +166,12 @@ public class EditProfileActivity extends AppCompatActivity {
                         etFirstName.setText(document.get("firstName").toString());
                         etLastName.setText(document.get("lastName").toString());
                         etMajor.setText(document.get("major").toString());
-                        etUniversity.setText(document.get("School").toString());
-                        etBriefBio.setText(document.get("briefBio").toString());
+                        etUniversity.setText(document.get("university").toString());
+                        etBriefBio.setText(document.get("about").toString());
+
+                        //Update imageUrl
+                        String newImageUrl = document.get("profileImage").toString();
+                        Picasso.get().load(newImageUrl).into(ivProfileImage);
 
                         boolean isCompany = (boolean)document.get("isCompany");
                         if(isCompany) {
@@ -201,7 +205,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void goToMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, MainActivity_.class);
         startActivity(i);
         //finish();
 
